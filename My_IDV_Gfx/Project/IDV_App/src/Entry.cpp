@@ -10,9 +10,9 @@ IDVBaseWindow	   *g_pWindow = 0;
 
 int main(int arg, char ** args) {
 
-	PrintFromLibrary();
-	VertexParser();
-	/*
+	//PrintFromLibrary();
+	//VertexParser();
+	
 	g_pApplication = new IDVTestApplication();
 	g_pWindow = new IDVWin32Manager((IDVBaseApplication*)g_pApplication);
 	g_pWindow->InitGlobalVars();
@@ -24,6 +24,6 @@ int main(int arg, char ** args) {
 
 	delete g_pWindow;
 	delete g_pApplication;
-	*/
+	
 	return 0;
 }
