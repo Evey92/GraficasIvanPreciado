@@ -149,10 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IDV_Math.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Ivan\Documents\5to Cuatri\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Ivan\Documents\5to Cuatri\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Ivan\Documents\5to Cuatri\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Ivan\Documents\5to Cuatri\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
