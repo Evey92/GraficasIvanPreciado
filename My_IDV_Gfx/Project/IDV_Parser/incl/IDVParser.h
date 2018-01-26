@@ -3,6 +3,7 @@
 
 void PrintFromLibrary();
 int VertexParser();
+void testFunciones();
 
 #endif
 

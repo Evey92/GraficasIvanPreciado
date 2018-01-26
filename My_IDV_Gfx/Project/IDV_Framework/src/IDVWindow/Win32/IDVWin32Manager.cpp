@@ -5,6 +5,9 @@
 // Windows
 #include <windows.h>
 #include <mmsystem.h>
+#include <iostream>
+#include <IDVParser.h>
+
 
 void IDVWin32Manager::InitGlobalVars() {
 	m_pApplication->InitVars();
@@ -38,12 +41,23 @@ void IDVWin32Manager::UpdateApplication() {
 void IDVWin32Manager::ProcessInput() {
 	SDL_Event       evento;
 	while (SDL_PollEvent(&evento)) {
+		//VertexParser();
 		switch (evento.type) {
 		case SDL_KEYDOWN: {
+			
 			if (evento.key.keysym.sym == SDLK_q) {
 				m_bAlive = false;
 			}
-			
+			else if (evento.key.keysym.sym == SDLK_SPACE)
+			{
+				
+				std::cout<< "oprimiste spacio\n";
+				testFunciones();
+			}
+			else if (evento.key.keysym.sym == SDLK_RETURN)
+			{
+				std::cout << "oprimiste enter\n";
+			}
 		}break;
 
 		case SDL_QUIT: {
@@ -53,6 +67,8 @@ void IDVWin32Manager::ProcessInput() {
 		case SDL_KEYUP: {
 
 		}break;
+
+		
 
 		case SDL_VIDEORESIZE: {
 			printf("New dim %d x %d \n", evento.resize.w, evento.resize.h);

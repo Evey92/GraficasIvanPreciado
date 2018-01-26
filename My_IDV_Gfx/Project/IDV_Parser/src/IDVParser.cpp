@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <conio.h>
+#include <IDV_Math.h>
 
 using namespace std;
 
@@ -115,4 +116,22 @@ int VertexParser()
 	vertexFile.close();
 
 	return 0;
+}
+
+void testFunciones()
+{
+	XVECTOR2 vec1{ 1, 2 }, vec2{ 4,5 };
+
+	std::cout << "Los vectres son: [" << vec1.x << ", " << vec1.y << "] y [" << vec2.x << ", " << vec2.y << "]\n";
+
+	if (vec1 == vec2)
+	{
+		std::cout << "Son iguales!\n";
+	}
+	else
+		std::cout << "Son diferentes\n";
+
+
+	 //<< vec1.x << ", " << vec1.y << "]\n";
+	
 }
