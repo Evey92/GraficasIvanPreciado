@@ -1,7 +1,7 @@
 #ifndef CA_MATHS_H
 #define CA_MATHS_H
 
-#include <Config.h>
+//#include <Config.h>
 
 #include <algorithm>
 #include <iostream>
@@ -278,7 +278,7 @@ struct XVECTOR3 {
 	XVECTOR3 operator * (float) const;
 	XVECTOR3 operator / (float) const;
 
-	XVECTOR3	   operator * (const XVECTOR3&);
+	XVECTOR3	operator * (const XVECTOR3&);
 
 	friend XVECTOR3 operator * (float, const struct XVECTOR3&);
 
