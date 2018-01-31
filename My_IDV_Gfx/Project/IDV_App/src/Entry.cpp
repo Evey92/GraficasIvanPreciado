@@ -4,6 +4,7 @@
 #include <IDV_TestApplication.h>
 
 #include <IDVParser.h>
+#include <IDV_Math.h>
 
 IDVBaseApplication *g_pApplication = 0;
 IDVBaseWindow	   *g_pWindow = 0;

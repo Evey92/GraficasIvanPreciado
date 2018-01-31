@@ -120,18 +120,18 @@ int VertexParser()
 
 void testFunciones()
 {
-	XVECTOR2 vec1{ 1, 2 }, vec2{ 4,5 };
+	XVECTOR2 vec1, vec2;
 
-	std::cout << "Los vectres son: [" << vec1.x << ", " << vec1.y << "] y [" << vec2.x << ", " << vec2.y << "]\n";
+	vec1.x = 2;
+	vec1.y = 7;
+	vec2.x = 9;
+	vec2.y = 6;
 
-	if (vec1 == vec2)
-	{
-		std::cout << "Son iguales!\n";
-	}
-	else
-		std::cout << "Son diferentes\n";
+	std::cout << "los vectores actuales son: vec1{" << vec1.x << ", " << vec1.y << "} y vec2{" << vec2.x << ", " << vec2.y << "}\n";
 
+	vec2 += vec1;
 
-	 //<< vec1.x << ", " << vec1.y << "]\n";
-	
+	//std::cout << "los vectores actuales son: vec1{" << vec3.x << ", " << vec3.y << "}\n";
+
+	std::cout << "Holi\n";
 }

@@ -7,6 +7,7 @@
 #include <mmsystem.h>
 #include <iostream>
 #include <IDVParser.h>
+#include <IDV_Math.h>
 
 
 void IDVWin32Manager::InitGlobalVars() {
