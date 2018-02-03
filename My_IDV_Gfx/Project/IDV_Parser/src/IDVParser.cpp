@@ -117,21 +117,3 @@ int VertexParser()
 
 	return 0;
 }
-
-void testFunciones()
-{
-	XVECTOR2 vec1, vec2;
-
-	vec1.x = 2;
-	vec1.y = 7;
-	vec2.x = 9;
-	vec2.y = 6;
-
-	std::cout << "los vectores actuales son: vec1{" << vec1.x << ", " << vec1.y << "} y vec2{" << vec2.x << ", " << vec2.y << "}\n";
-
-	vec2 += vec1;
-
-	//std::cout << "los vectores actuales son: vec1{" << vec3.x << ", " << vec3.y << "}\n";
-
-	std::cout << "Holi\n";
-}

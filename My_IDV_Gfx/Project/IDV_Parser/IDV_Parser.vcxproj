@@ -97,7 +97,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;$(ProjectDir)incl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Ivan\Documents\5to Cuatri\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;$(ProjectDir)incl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,7 +111,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;$(ProjectDir)incl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Ivan\Documents\5to Cuatri\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;$(ProjectDir)incl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,7 +127,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;$(ProjectDir)incl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Ivan\Documents\5to Cuatri\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;$(ProjectDir)incl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,7 +145,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;$(ProjectDir)incl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Ivan\Documents\5to Cuatri\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;C:\Users\Usuario\Documents\Graficas_camus\GraficasIvanPreciado\My_IDV_Gfx\Project\IDV_Math\IDV_Math;$(ProjectDir)incl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

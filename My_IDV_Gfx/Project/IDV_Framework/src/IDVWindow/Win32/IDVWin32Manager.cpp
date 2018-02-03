@@ -53,7 +53,7 @@ void IDVWin32Manager::ProcessInput() {
 			{
 				
 				std::cout<< "oprimiste spacio\n";
-				testFunciones();
+				//testFunciones();
 			}
 			else if (evento.key.keysym.sym == SDLK_RETURN)
 			{
