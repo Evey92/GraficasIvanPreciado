@@ -18,7 +18,7 @@ void Parser::CargarVertices()
 	std::fstream vertexFile;
 	//int totalVertex, totalIndexes, totalNormals;
 	std::vector<Vertex>::iterator vertexIterator;
-	std::vector<VertexIndex>vertexIndexes;
+	//std::vector<VertexIndex>vertexIndexes;
 	std::string fileName, word;
 	
 	char ans;
@@ -76,19 +76,21 @@ void Parser::CargarVertices()
 
 			for (int i = 0; i < totalIndexes; i++)
 			{
-				VertexIndex indexCoordinates;
+				unsigned short x, y, z;
 				vertexFile >> ans;
 				vertexFile >> ans;
-				vertexFile >> indexCoordinates.x; // Agarra el vertice x
+				vertexFile >> x; // Agarra el vertice x
 				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> indexCoordinates.y; // Agarra el vertice y
+				vertexFile >> y; // Agarra el vertice y
 				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> indexCoordinates.z; // Agarra el vertice z
+				vertexFile >> z; // Agarra el vertice z
 				vertexFile >> ans;				  //se come el ultimmo punto y coma
 				vertexFile >> ans;				  //se come la coma del final de cada renglon
 
 												  //meto la estructura en un vecotr
-				vertexIndexes.push_back(indexCoordinates);
+				indexCoordinates.push_back(x);
+				indexCoordinates.push_back(y);
+				indexCoordinates.push_back(z);
 			}
 		}
 

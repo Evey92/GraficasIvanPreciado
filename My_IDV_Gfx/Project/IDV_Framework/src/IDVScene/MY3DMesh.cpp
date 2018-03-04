@@ -25,18 +25,6 @@ void D3DXMesh::Create()
 
 	int shaderID = g_pBaseDriver->CreateShader(vstr, fstr, SigBase);
 
-	/*vertices[0] = { -1.0f,  1.0f, 0.0f, 1.0f,  0.0f, 0.0f };
-	vertices[1] = { -1.0f, -1.0f, 0.0f, 1.0f,  0.0f, 1.0f };
-	vertices[2] = { 1.0f, -1.0f, 0.0f, 1.0f,  1.0f, 1.0f };
-	vertices[3] = { 1.0f,  1.0f, 0.0f, 1.0f,  1.0f, 0.0f };
-
-	indices[0] = 2;
-	indices[1] = 1;
-	indices[2] = 0;
-	indices[3] = 3;
-	indices[4] = 2;
-	indices[5] = 0;*/
-
 	parser.CargarVertices();
 
 	IDVD3DXShader* s = dynamic_cast<IDVD3DXShader*>(g_pBaseDriver->GetShaderIdx(shaderID));

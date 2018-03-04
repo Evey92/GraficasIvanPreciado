@@ -22,7 +22,7 @@ public:
 	int totalVertex, totalIndexes, totalNormals;
 	std::vector<Vertex> vertexVec;
 
-	std::vector<VertexIndex> indexCoordinates;
+	std::vector<unsigned short> indexCoordinates;
 
 	Parser();
 	void CargarVertices();
