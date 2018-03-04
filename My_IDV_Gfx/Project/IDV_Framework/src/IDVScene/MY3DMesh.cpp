@@ -12,10 +12,10 @@ extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 
 void D3DXMesh::Create()
 {
-	SigBase = IDVSig::HAS_TEXCOORDS0;
+	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS;;
 
-	char *vsSourceP = file2string("Shaders/VS_Quad.hlsl");
-	char *fsSourceP = file2string("Shaders/FS_Quad.hlsl");
+	char *vsSourceP = file2string("Shaders/VS_Mesh.hlsl");
+	char *fsSourceP = file2string("Shaders/FS_Mesh.hlsl");
 
 	std::string vstr = std::string(vsSourceP);
 	std::string fstr = std::string(fsSourceP);
@@ -53,7 +53,7 @@ void D3DXMesh::Create()
 	}
 
 	bdesc = { 0 };
-	bdesc.ByteWidth = parser.totalIndexes * sizeof(USHORT);
+	bdesc.ByteWidth = parser.indexCoordinates.size() * sizeof(USHORT);
 	bdesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 	subData = { &parser.indexCoordinates[0], 0, 0 };
@@ -118,7 +118,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 
 	D3D11DeviceContext->PSSetSamplers(0, 1, pSampler.GetAddressOf());
 	D3D11DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	D3D11DeviceContext->DrawIndexed(6, 0, 0);
+	D3D11DeviceContext->DrawIndexed(parser.indexCoordinates.size(), 0, 0);
 }
 
 void D3DXMesh::Destroy() {
