@@ -7,51 +7,40 @@
 #include <conio.h>
 #include <IDV_Math.h>
 
-using namespace std;
 
-void PrintFromLibrary()
+
+Parser::Parser()
 {
-	printf("Hello World from Static Library\n");
 }
 
-struct Vertex
+void Parser::CargarVertices()
 {
-	float x, y, z;
-};
-
-int VertexParser()
-{
-	fstream vertexFile;
-	int totalVertex;
+	std::fstream vertexFile;
+	//int totalVertex, totalIndexes, totalNormals;
+	std::vector<Vertex>::iterator vertexIterator;
+	std::vector<VertexIndex>vertexIndexes;
+	std::string fileName, word;
+	
 	char ans;
-	string fileName, word;
-	bool ex = false;
-	Vertex vertxCoordinates;
-	vector<Vertex> model;
-	vector<Vertex>::iterator iterator;
-
 	do
 	{
-		system("cls");
-		cout << "Por favor introduzca el nombre del archivo. \n";
-		getline(cin, fileName);
+		//system("cls");
+		std::cout << "Por favor introduzca el nombre del archivo. \n";
+		getline(std::cin, fileName);
 
 
-		vertexFile.open(fileName + ".X", ios_base::in, ios::binary);
+		vertexFile.open(fileName + ".X", std::ios_base::in, std::ios::binary);
 
 		if (vertexFile.is_open())
 		{
-			cout << "Archivo cargado con exito!" << endl;
+			std::cout << "Archivo cargado con exito!" << std::endl;
 			ans = 'l';
 		}
 		else
 		{
-			cout << "ERROR: No se pudo cargar el archivo. Revise que el nombre del archivo este escrito correctamente, o que el archivo se encuentre en la carpeta del programa.\n\nDesea intentarlo de nuevo?\ny/n" << endl;
-			cin >> ans;
-			cin.ignore();
-
-			if (ans == 'n')
-				return 0;
+			std::cout << "ERROR: No se pudo cargar el archivo. Revise que el nombre del archivo este escrito correctamente, o que el archivo se encuentre en la carpeta del programa.\n\nDesea intentarlo de nuevo?\ny/n" << std::endl;
+			std::cin >> ans;
+			std::cin.ignore();
 		}
 
 	} while (ans == 'Y' || ans == 'y');
@@ -69,6 +58,7 @@ int VertexParser()
 			//Ahora leo todos los vertices y los guardo en la estructura
 			for (int i = 0; i < totalVertex; i++)
 			{
+				Vertex vertxCoordinates;
 				vertexFile >> vertxCoordinates.x; // Agarra el vertice x
 				vertexFile >> ans;				  //Se come el punto y coma
 				vertexFile >> vertxCoordinates.y; // Agarra el vertice y
@@ -78,42 +68,115 @@ int VertexParser()
 				vertexFile >> ans;				  //se come la coma del final de cada renglon
 
 												  //meto la estructura en un vecotr
-				model.push_back(vertxCoordinates);
+				vertexVec.push_back(vertxCoordinates);
 			}
-		}
-	}
-	////////////////////////////////////////////////////////////////////////////////////
+			vertexFile >> totalIndexes;
+			vertexFile >> ans;
+			//Ahora leo todos los vertices y los guardo en la estructura
 
-	cout << "Para imprimir el array linea por linea presiona espacio.\npara imprimir todos los vertices, presiona enter\n";
-	cout << "Vertices a imprimir: " << totalVertex << "\n";
-	int cont = 0;
-	do
-	{
-
-		ans = _getch();
-
-		if (ans == 32)
-		{
-			//cout << "Estoy imprimiendo el array linea por linea woooo\n";
-			cout << "(" << model[cont].x << ", " << model[cont].y << ", " << model[cont].z << ")\n";
-			cont++;
-
-			if (cont >= totalVertex)
-				ex = true;
-		}
-		else if (ans == 13)
-		{
-			cout << "Estoy imprimiendo el array enterooooooooo\n";
-			for (iterator = model.begin(); iterator != model.end(); iterator++)
+			for (int i = 0; i < totalIndexes; i++)
 			{
-				cout << "(" << iterator->x << ", " << iterator->y << ", " << iterator->z << ")\n";
+				VertexIndex indexCoordinates;
+				vertexFile >> ans;
+				vertexFile >> ans;
+				vertexFile >> indexCoordinates.x; // Agarra el vertice x
+				vertexFile >> ans;				  //Se come el punto y coma
+				vertexFile >> indexCoordinates.y; // Agarra el vertice y
+				vertexFile >> ans;				  //Se come el punto y coma
+				vertexFile >> indexCoordinates.z; // Agarra el vertice z
+				vertexFile >> ans;				  //se come el ultimmo punto y coma
+				vertexFile >> ans;				  //se come la coma del final de cada renglon
+
+												  //meto la estructura en un vecotr
+				vertexIndexes.push_back(indexCoordinates);
 			}
-			ex = true;
 		}
 
-	} while (!ex);
+		if (!word.find("  MeshNormals "))
+		{
+			//primero leo el total de vertices 
+			vertexFile >> totalVertex;
+			vertexFile >> ans;
+			//Ahora leo todos los vertices y los guardo en la estructura
+			for (int i = 0; i < totalVertex; i++)
+			{
+				vertexFile >> vertexVec[i].xn; // Agarra el vertice x
+				vertexFile >> ans;				  //Se come el punto y coma
+				vertexFile >> vertexVec[i].yn; // Agarra el vertice y
+				vertexFile >> ans;				  //Se come el punto y coma
+				vertexFile >> vertexVec[i].zn; // Agarra el vertice z
+				vertexFile >> ans;				  //se come el ultimmo punto y coma
+				vertexFile >> ans;				  //se come la coma del final de cada renglon
+			}
 
-	vertexFile.close();
+			//Ahora leo todos los vertices y los guardo en la estructura
 
-	return 0;
+		}
+
+		if (!word.find("  MeshTextureCoords "))
+		{
+			//primero leo el total de vertices 
+			vertexFile >> totalVertex;
+			vertexFile >> ans;
+			//Ahora leo todos los vertices y los guardo en la estructura
+			for (int i = 0; i < totalVertex; i++)
+			{
+				vertexFile >> vertexVec[i].u; // Agarra el vertice x
+				vertexFile >> ans;				  //Se come el punto y coma
+				vertexFile >> vertexVec[i].v; // Agarra el vertice 
+				vertexFile >> ans;				  //se come el ultimmo punto y coma
+				vertexFile >> ans;				  //se come la coma del final de cada renglon
+			}
+
+			//Ahora leo todos los vertices y los guardo en la estructura
+
+		}
+
+	}
 }
+
+
+//void Parser::Imprimir(int totalVertex)
+//{
+//	////////////////////////////////////////////////////////////////////////////////////
+//
+//	cout << "Para imprimir el array linea por linea presiona espacio.\npara imprimir todos los vertices, presiona enter\n";
+//	cout << "Vertices a imprimir: " << totalVertex << "\n";
+//	
+//	int cont = 0;
+//	bool ex = false;
+//	char ans;
+//	do
+//	{
+//
+//		ans = _getch();
+//
+//		if (ans == 32)
+//		{
+//			//cout << "Estoy imprimiendo el array linea por linea woooo\n";
+//			cout << "(" << vertexVec[cont].x << ", " << vertexVec[cont].y << ", " << vertexVec[cont].z << ")\n";
+//			cont++;
+//
+//			if (cont >= totalVertex)
+//				ex = true;
+//		}
+//		else if (ans == 13)
+//		{
+//			cout << "Estoy imprimiendo el array enterooooooooo\n";
+//			cout << "Vertices: \n";
+//			for (vertexIterator = vertexVec.begin(); vertexIterator != vertexVec.end(); vertexIterator++)
+//			{				
+//				std::cout << "(" << vertexIterator->x << ", " << vertexIterator->y << ", " << vertexIterator->z << ")\n";
+//				std::cout << "(" << vertexIterator->xn << ", " << vertexIterator->yn << ", " << vertexIterator->zn << ")\n";
+//				std::cout << "(" << vertexIterator->u << ", " << vertexIterator->v << ")\n";
+//			}
+//			/*cout << "\n\n\n\n\nNormals: \n";
+//			for (normalIterator = normalVec.begin(); normalIterator != normalVec.end(); normalIterator++)
+//			{
+//				
+//			}*/
+//			ex = true;
+//		}
+//
+//	} while (!ex);
+//}

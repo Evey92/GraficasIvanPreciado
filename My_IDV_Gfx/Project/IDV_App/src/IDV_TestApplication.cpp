@@ -1,17 +1,18 @@
 #include <IDV_TestApplication.h>
-
 #include <stdio.h>
+#include <IDV_Math.h>
 
 void IDVTestApplication::InitVars() {
 
 }
 
 void IDVTestApplication::CreateAssets() {
-	D3DXMATRIX VP;
+	XMATRIX44 VP;
 
 	PrimitiveMgr = new PrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
 
-	int index = PrimitiveMgr->CreateQuad();
+	//int index = PrimitiveMgr->CreateQuad();
+	int index = PrimitiveMgr->CreateMesh();
 	QuadInst.CreateInstance(PrimitiveMgr->GetPrimitive(index), &VP);
 }
 

@@ -24,6 +24,8 @@
     <ClCompile Include="src\IDVScene\IDVPrimitiveInstance.cpp" />
     <ClCompile Include="src\IDVScene\IDVPrimitiveManager.cpp" />
     <ClCompile Include="src\IDVScene\IDVSceneProp.cpp" />
+    <ClCompile Include="src\IDVScene\MY3DMesh.cpp" />
+    <ClCompile Include="src\IDVScene\MYGLMesh.cpp" />
     <ClCompile Include="src\IDVUtils\IDVUtils.cpp" />
     <ClCompile Include="src\IDVVideo\IDVBaseDriver.cpp" />
     <ClCompile Include="src\IDVVideo\IDVD3DXDriver.cpp" />
@@ -41,6 +43,8 @@
     <ClInclude Include="incl\IDVScene\IDVPrimitiveInstance.h" />
     <ClInclude Include="incl\IDVScene\IDVPrimitiveManager.h" />
     <ClInclude Include="incl\IDVScene\IDVSceneProp.h" />
+    <ClInclude Include="incl\IDVScene\MYD3Mesh.h" />
+    <ClInclude Include="incl\IDVScene\MYGLMesh.h" />
     <ClInclude Include="incl\IDVUtils\IDVUtils.h" />
     <ClInclude Include="incl\IDVVideo\IDVBaseDriver.h" />
     <ClInclude Include="incl\IDVVideo\IDVD3DXDriver.h" />
@@ -128,7 +132,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;%(AdditionalIncludeDirectories);$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)ThirdParty\DXMath\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;%(AdditionalIncludeDirectories);$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)\IDV_Math\IDV_Math;$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)IDV_Math\IDV_Math;$(SolutionDir)\IDV_Parser\incl;$(SolutionDir)\IDV_Framework\incl</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +147,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories);$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)ThirdParty\DXMath\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories);$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)\IDV_Math\IDV_Math;$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)IDV_Math\IDV_Math;$(SolutionDir)\IDV_Parser\incl;$(SolutionDir)\IDV_Framework\incl</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,7 +164,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;%(AdditionalIncludeDirectories);$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)ThirdParty\DXMath\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;%(AdditionalIncludeDirectories);$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)\IDV_Math\IDV_Math;$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)IDV_Math\IDV_Math;$(SolutionDir)\IDV_Parser\incl;$(SolutionDir)\IDV_Framework\incl</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -179,7 +184,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories);$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)ThirdParty\DXMath\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories);$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)\IDV_Math\IDV_Math;$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)IDV_Math\IDV_Math;$(SolutionDir)\IDV_Parser\incl;$(SolutionDir)\IDV_Framework\incl</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

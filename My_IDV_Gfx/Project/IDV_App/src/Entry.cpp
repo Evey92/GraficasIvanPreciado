@@ -1,13 +1,16 @@
 #include <IDVDefs.h>
-
+#include<IDVParser.h>
 #include <IDVWindow/IDVWin32Manager.h>
 #include <IDV_TestApplication.h>
 
 IDVBaseApplication *g_pApplication = 0;
 IDVBaseWindow	   *g_pWindow = 0;
 
+//Parser parser;
+
 int main(int arg, char ** args) {
 
+	
 	g_pApplication = new IDVTestApplication();
 	g_pWindow = new IDVWin32Manager((IDVBaseApplication*)g_pApplication);
 	g_pWindow->InitGlobalVars();
