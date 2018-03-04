@@ -7,8 +7,8 @@
 void GLMesh::Create() {
 	SigBase = IDVSig::HAS_TEXCOORDS0;
 
-	char *vsSourceP = file2string("Shaders/VS_Quad.glsl");
-	char *fsSourceP = file2string("Shaders/FS_Quad.glsl");
+	char *vsSourceP = file2string("Shaders/VS_Mesh.glsl");
+	char *fsSourceP = file2string("Shaders/FS_Mesh.glsl");
 
 	std::string vstr = std::string(vsSourceP);
 	std::string fstr = std::string(fsSourceP);
@@ -27,7 +27,7 @@ void GLMesh::Create() {
 
 	glGenBuffers(1, &IB);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, parser.totalIndexes * sizeof(unsigned short), &parser.indexCoordinates[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, parser.indexCoordinates.size() * sizeof(unsigned short), &parser.indexCoordinates[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 }
@@ -66,10 +66,12 @@ void GLMesh::Draw(float *t, float *vp) {
 
 	glEnableVertexAttribArray(s->vertexAttribLoc);
 	glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::Vertex), BUFFER_OFFSET(0));
+	glEnableVertexAttribArray(s->normalAttribLoc);
+	glVertexAttribPointer(s->normalAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::Vertex), BUFFER_OFFSET(16));
 	glEnableVertexAttribArray(s->uvAttribLoc);
-	glVertexAttribPointer(s->uvAttribLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Parser::Vertex), BUFFER_OFFSET(16));
+	glVertexAttribPointer(s->uvAttribLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Parser::Vertex), BUFFER_OFFSET(32));
 
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, parser.indexCoordinates.size(), GL_UNSIGNED_SHORT, 0);
 }
 
 void GLMesh::Destroy() {
