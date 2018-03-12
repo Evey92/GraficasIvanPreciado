@@ -5,6 +5,7 @@
 #include <wrl.h>
 #include <wrl/client.h>
 using namespace Microsoft::WRL;
+
 #include <d3d11.h>
 #include <dxgi.h>
 #include <D3Dcompiler.h>
@@ -13,6 +14,7 @@ using namespace Microsoft::WRL;
 #include <IDVVideo\IDVBaseDriver.h>
 #include <IDVScene\IDVPrimitive.h>
 #include <IDVParser.h>
+#include<vector>
 
 class D3DXMesh : public PrimitiveBase
 {
@@ -22,6 +24,17 @@ public:
 		XMATRIX44 WVP;
 		XMATRIX44 World;
 		XMATRIX44 WorldView;
+	};
+
+	struct SubsetInfo {
+
+		ComPtr<ID3D11Buffer>		IB;
+	};
+
+	struct MeshInfo {
+		ComPtr<ID3D11Buffer>		VB;
+		ComPtr<ID3D11Buffer>		IB;
+		std::vector <SubsetInfo>    SubSets;
 	};
 
 	D3DXMesh() {
@@ -41,9 +54,9 @@ public:
 	ComPtr<ID3D11Buffer>        pd3dConstantBuffer;
 	ComPtr<ID3D11SamplerState>  pSampler;
 
+	std::vector<MeshInfo>		Mesh_Info;
+
 	CBuffer			CnstBuffer;
-
-
 	XMATRIX44		transform;
 	Parser parser;
 };

@@ -21,6 +21,7 @@ void Parser::CargarVertices()
 	//std::vector<VertexIndex>vertexIndexes;
 	std::string fileName, word;
 	
+	//totalMeshes=0;
 	char ans;
 	do
 	{
@@ -31,10 +32,197 @@ void Parser::CargarVertices()
 
 		vertexFile.open(fileName + ".X", std::ios_base::in, std::ios::binary);
 
+		
+
 		if (vertexFile.is_open())
 		{
 			std::cout << "Archivo cargado con exito!" << std::endl;
 			ans = 'l';
+
+			while (getline(vertexFile, word) && !vertexFile.eof())
+			{
+				if (!word.find(" Mesh mesh_"))
+				{
+					totalMeshes++;
+				}
+			} 
+			vertexFile.clear();
+			vertexFile.seekg(0,vertexFile.beg);
+
+			for(int meshNum = 0; meshNum < totalMeshes; meshNum++)
+			{
+				std::vector<Vertex> tempVec;
+				std::vector<unsigned short> indexCoordinates;
+				totalVertex = 0;
+				totalIndexes = 0;
+				bool done = false;
+				while(getline(vertexFile, word) && !done)
+				{					
+						//Si encuentro la palabra " Mesh" me detengo y empieso a guardar los valores
+						if (!word.find(" Mesh mesh_"))
+						{
+							std::cout << "Cargadndo vertices del mesh" << std::endl;
+							//primero leo el total de vertices 
+							vertexFile >> totalVertex;
+							vertexFile >> ans;
+							//Ahora leo todos los vertices y los guardo en la estructura
+							for (int i = 0; i < totalVertex; i++)
+							{
+								Vertex vertxCoordinates;
+								vertexFile >> vertxCoordinates.x; // Agarra el vertice x
+								vertexFile >> ans;				  //Se come el punto y coma
+								vertexFile >> vertxCoordinates.y; // Agarra el vertice y
+								vertexFile >> ans;				  //Se come el punto y coma
+								vertexFile >> vertxCoordinates.z; // Agarra el vertice z
+								vertexFile >> ans;				  //se come el ultimmo punto y coma
+								vertexFile >> ans;				  //se come la coma del final de cada renglon
+
+																  //meto la estructura en un vecotr
+								tempVec.push_back(vertxCoordinates);
+							}
+							vertexFile >> totalIndexes;
+							vertexFile >> ans;
+							std::cout << "Indice" << totalIndexes << std::endl;
+
+							//Ahora leo todos los vertices y los guardo en la estructura
+
+							for (int i = 0; i < totalIndexes; i++)
+							{
+								unsigned short x, y, z;
+								vertexFile >> ans;
+								vertexFile >> ans;
+								vertexFile >> x; // Agarra el vertice x
+								vertexFile >> ans;				  //Se come el punto y coma
+								vertexFile >> y; // Agarra el vertice y
+								vertexFile >> ans;				  //Se come el punto y coma
+								vertexFile >> z; // Agarra el vertice z
+								vertexFile >> ans;				  //se come el ultimmo punto y coma
+								vertexFile >> ans;				  //se come la coma del final de cada renglon
+
+																  //meto la estructura en un vecotr
+								indexCoordinates.push_back(x);
+								indexCoordinates.push_back(y);
+								indexCoordinates.push_back(z);
+							}
+							indexCoordinatesMesh.push_back(indexCoordinates);
+						}
+
+						if (!word.find("  MeshNormals n"))
+						{
+							std::cout << "Cargadndo a normals" << std::endl;
+							//primero leo el total de vertices 
+							vertexFile >> totalVertex;
+							vertexFile >> ans;
+							//Ahora leo todos los vertices y los guardo en la estructura
+							for (int i = 0; i < totalVertex; i++)
+							{
+								vertexFile >> tempVec[i].xn; // Agarra el vertice x
+								vertexFile >> ans;				  //Se come el punto y coma
+								vertexFile >> tempVec[i].yn; // Agarra el vertice y
+								vertexFile >> ans;				  //Se come el punto y coma
+								vertexFile >> tempVec[i].zn; // Agarra el vertice z
+								vertexFile >> ans;				  //se come el ultimmo punto y coma
+								vertexFile >> ans;				  //se come la coma del final de cada renglon
+							}
+
+							//Ahora leo todos los vertices y los guardo en la estructura
+
+						}
+
+						if (!word.find("  MeshTextureCoords t"))
+						{
+							std::cout << "Cargadndo a uvs" << std::endl;
+							//primero leo el total de vertices 
+							vertexFile >> totalVertex;
+							vertexFile >> ans;
+							//Ahora leo todos los vertices y los guardo en la estructura
+							for (int i = 0; i < totalVertex; i++)
+							{
+								vertexFile >> tempVec[i].u; // Agarra el vertice x
+								vertexFile >> ans;				  //Se come el punto y coma
+								vertexFile >> tempVec[i].v; // Agarra el vertice 
+								vertexFile >> ans;				  //se come el ultimmo punto y coma
+								vertexFile >> ans;				  //se come la coma del final de cada renglon
+							}	
+						}
+
+						if (!word.find("  DeclData {"))
+						{
+							std::cout << "Cargadndo a Metadata" << std::endl;
+							//primero leo el total de vertices 
+							vertexFile >> totalMaterials;
+							vertexFile >> ans;
+							meshMetaInfo.resize(totalMaterials);
+							//Ahora leo todos los vertices y los guardo en la estructura
+							for (int i = 0; i < totalMaterials; i++)
+							{
+								unsigned short matType;
+								vertexFile >> ans;				  
+								vertexFile >> ans;
+								vertexFile >> ans;				  
+								vertexFile >> ans;
+								vertexFile >> matType; 
+								vertexFile >> ans;				  
+								vertexFile >> ans;				  
+								vertexFile >> ans;					
+								vertexFile >> ans;			
+								MaterialType.push_back(matType);
+							}
+							vertexFile >> totalMeta;
+							vertexFile >> ans;
+							meshMetaInfo.resize(totalMeta);
+							for (int i = 0; i < totalVertex; i++)
+							{
+								for (int j = 0; j < totalMaterials; j++)
+								{
+									MetaObject metaObject;
+									unsigned int x, y, z;
+									vertexFile >> x;
+									vertexFile >> ans;
+									vertexFile >> y;
+									vertexFile >> ans;
+									vertexFile >> z;
+									vertexFile >> ans;
+
+									metaObject.mx = reinterpret_cast<float&>(x);
+									metaObject.my = reinterpret_cast<float&>(y);
+									metaObject.mz = reinterpret_cast<float&>(z);
+
+									meshMetaInfo[i].submeta.push_back(metaObject);
+								}
+							}
+						}
+
+						if (!word.find("  MeshMaterialList"))
+						{
+							std::cout << "Cargadndo a Materiales" << std::endl;
+							//primero leo el total de vertices 
+							vertexFile >> totalMaterialsInMesh;
+							vertexFile >> ans;
+							vertexFile >> totalMaterials;
+							vertexFile >> ans;
+
+							totalMeshMaterials.resize(totalMaterialsInMesh);
+							int matID=-1;
+							for (int i = 0; i < totalIndexes; i++)
+							{
+								vertexFile >> matID;
+								vertexFile >> ans;
+								totalMeshMaterials[matID].mtlBuffer.push_back(indexCoordinatesMesh[meshNum][(i * 3) + 0]);
+								totalMeshMaterials[matID].mtlBuffer.push_back(indexCoordinatesMesh[meshNum][(i * 3) + 1]);
+								totalMeshMaterials[matID].mtlBuffer.push_back(indexCoordinatesMesh[meshNum][(i * 3) + 2]);
+							}
+
+							done = true;
+						}
+						
+						
+					}
+				TotalMeshes.push_back(tempVec);
+				
+				
+			}
+			vertexFile.close();
 		}
 		else
 		{
@@ -42,99 +230,9 @@ void Parser::CargarVertices()
 			std::cin >> ans;
 			std::cin.ignore();
 		}
-
+		//vertexFile.close();
 	} while (ans == 'Y' || ans == 'y');
-
-	//Aqui va lo sabroso////////////////////////////////////////////////////////////////////
-
-	while (getline(vertexFile, word))
-	{
-		//Si encuentro la palabra " Mesh" me detengo y empieso a guardar los valores
-		if (!word.find(" Mesh "))
-		{
-			//primero leo el total de vertices 
-			vertexFile >> totalVertex;
-			vertexFile >> ans;
-			//Ahora leo todos los vertices y los guardo en la estructura
-			for (int i = 0; i < totalVertex; i++)
-			{
-				Vertex vertxCoordinates;
-				vertexFile >> vertxCoordinates.x; // Agarra el vertice x
-				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> vertxCoordinates.y; // Agarra el vertice y
-				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> vertxCoordinates.z; // Agarra el vertice z
-				vertexFile >> ans;				  //se come el ultimmo punto y coma
-				vertexFile >> ans;				  //se come la coma del final de cada renglon
-
-												  //meto la estructura en un vecotr
-				vertexVec.push_back(vertxCoordinates);
-			}
-			vertexFile >> totalIndexes;
-			vertexFile >> ans;
-			//Ahora leo todos los vertices y los guardo en la estructura
-
-			for (int i = 0; i < totalIndexes; i++)
-			{
-				unsigned short x, y, z;
-				vertexFile >> ans;
-				vertexFile >> ans;
-				vertexFile >> x; // Agarra el vertice x
-				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> y; // Agarra el vertice y
-				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> z; // Agarra el vertice z
-				vertexFile >> ans;				  //se come el ultimmo punto y coma
-				vertexFile >> ans;				  //se come la coma del final de cada renglon
-
-												  //meto la estructura en un vecotr
-				indexCoordinates.push_back(x);
-				indexCoordinates.push_back(y);
-				indexCoordinates.push_back(z);
-			}
-		}
-
-		if (!word.find("  MeshNormals "))
-		{
-			//primero leo el total de vertices 
-			vertexFile >> totalVertex;
-			vertexFile >> ans;
-			//Ahora leo todos los vertices y los guardo en la estructura
-			for (int i = 0; i < totalVertex; i++)
-			{
-				vertexFile >> vertexVec[i].xn; // Agarra el vertice x
-				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> vertexVec[i].yn; // Agarra el vertice y
-				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> vertexVec[i].zn; // Agarra el vertice z
-				vertexFile >> ans;				  //se come el ultimmo punto y coma
-				vertexFile >> ans;				  //se come la coma del final de cada renglon
-			}
-
-			//Ahora leo todos los vertices y los guardo en la estructura
-
-		}
-
-		if (!word.find("  MeshTextureCoords "))
-		{
-			//primero leo el total de vertices 
-			vertexFile >> totalVertex;
-			vertexFile >> ans;
-			//Ahora leo todos los vertices y los guardo en la estructura
-			for (int i = 0; i < totalVertex; i++)
-			{
-				vertexFile >> vertexVec[i].u; // Agarra el vertice x
-				vertexFile >> ans;				  //Se come el punto y coma
-				vertexFile >> vertexVec[i].v; // Agarra el vertice 
-				vertexFile >> ans;				  //se come el ultimmo punto y coma
-				vertexFile >> ans;				  //se come la coma del final de cada renglon
-			}
-
-			//Ahora leo todos los vertices y los guardo en la estructura
-
-		}
-
-	}
+	
 }
 
 
