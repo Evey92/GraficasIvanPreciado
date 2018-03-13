@@ -33,25 +33,37 @@ public:
 	};
 
 
-	unsigned int totalVertex, totalIndexes, totalNormals, totalMeshes=0, totalMeta, totalMaterials;
-	unsigned short type, totalMaterialsInMesh;
+	
 	//std::vector<Vertex> vertexVec;
 
 	
 
 
-	//std::vector<unsigned short> indexCoordinates;
-	//struct Mesh
-	//{
-	//	//std::vector<std::vector<unsigned short>> indexCoordinatesMesh;
-	//	std::vector<std::vector<Vertex>> TotalMeshes;
-	//};
+	
 
-	std::vector<std::vector<unsigned short>> indexCoordinatesMesh;
-	std::vector<std::vector<Vertex>> TotalMeshes;
-	std::vector<MatSubset> totalMeshMaterials;
-	std::vector<MetaSubset> meshMetaInfo;
-	std::vector<unsigned short> MaterialType;
+	//std::vector<std::vector<unsigned short>> indexCoordinatesMesh;
+	//std::vector<std::vector<Vertex>> TotalMeshes;
+	//std::vector<MatSubset> totalMeshMaterials;
+	//std::vector<MetaSubset> meshMetaInfo;
+	//std::vector<unsigned short> MaterialType;
+
+	unsigned int meshCount = 0;
+	//unsigned int totalVertex, totalIndexes, totalNormals,  totalMeta, totalMaterials;
+	//unsigned short type, totalMaterialsInMesh;
+
+	struct Mesh
+	{
+		std::vector<unsigned short> indexCoordinatesMesh;
+		std::vector<Vertex> TotalVertex;
+		std::vector<MatSubset> totalMeshMaterials;
+		std::vector<MetaSubset> meshMetaInfo;
+		std::vector<unsigned short> MaterialType;
+
+		unsigned int totalVertex, totalIndexes, totalNormals, totalMeta, totalMaterials;
+		unsigned short type, totalMaterialsInMesh;
+	};
+
+	std::vector<Mesh> totalMeshes;
 
 
 	Parser();

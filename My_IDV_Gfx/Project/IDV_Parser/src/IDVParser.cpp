@@ -43,18 +43,19 @@ void Parser::CargarVertices()
 			{
 				if (!word.find(" Mesh mesh_"))
 				{
-					totalMeshes++;
+					meshCount++;
 				}
 			} 
 			vertexFile.clear();
 			vertexFile.seekg(0,vertexFile.beg);
 
-			for(int meshNum = 0; meshNum < totalMeshes; meshNum++)
+			for(int meshNum = 0; meshNum < meshCount; meshNum++)
 			{
 				std::vector<Vertex> tempVec;
 				std::vector<unsigned short> indexCoordinates;
-				totalVertex = 0;
-				totalIndexes = 0;
+				Mesh mesh;
+				mesh.totalVertex = 0;
+				mesh.totalIndexes = 0;
 				bool done = false;
 				while(getline(vertexFile, word) && !done)
 				{					
@@ -63,10 +64,10 @@ void Parser::CargarVertices()
 						{
 							std::cout << "Cargadndo vertices del mesh " << meshNum + 1 << std::endl;
 							//primero leo el total de vertices 
-							vertexFile >> totalVertex;
+							vertexFile >> mesh.totalVertex;
 							vertexFile >> ans;
 							//Ahora leo todos los vertices y los guardo en la estructura
-							for (int i = 0; i < totalVertex; i++)
+							for (int i = 0; i < mesh.totalVertex; i++)
 							{
 								Vertex vertxCoordinates;
 								vertexFile >> vertxCoordinates.x; // Agarra el vertice x
@@ -80,13 +81,13 @@ void Parser::CargarVertices()
 																  //meto la estructura en un vecotr
 								tempVec.push_back(vertxCoordinates);
 							}
-							vertexFile >> totalIndexes;
+							vertexFile >> mesh.totalIndexes;
 							vertexFile >> ans;
-							std::cout << "Indices: " << totalIndexes << std::endl;
+							std::cout << "Indices: " << mesh.totalIndexes << std::endl;
 
 							//Ahora leo todos los vertices y los guardo en la estructura
 
-							for (int i = 0; i < totalIndexes; i++)
+							for (int i = 0; i < mesh.totalIndexes; i++)
 							{
 								unsigned short x, y, z;
 								vertexFile >> ans;
@@ -100,21 +101,21 @@ void Parser::CargarVertices()
 								vertexFile >> ans;				  //se come la coma del final de cada renglon
 
 																  //meto la estructura en un vecotr
-								indexCoordinates.push_back(x);
-								indexCoordinates.push_back(y);
-								indexCoordinates.push_back(z);
+								mesh.indexCoordinatesMesh.push_back(x);
+								mesh.indexCoordinatesMesh.push_back(y);
+								mesh.indexCoordinatesMesh.push_back(z);
 							}
-							indexCoordinatesMesh.push_back(indexCoordinates);
+							//indexCoordinatesMesh.push_back(indexCoordinates);
 						}
 
 						if (!word.find("  MeshNormals n"))
 						{
 							std::cout << "Cargadndo Normals" << std::endl;
 							//primero leo el total de vertices 
-							vertexFile >> totalVertex;
+							vertexFile >> mesh.totalVertex;
 							vertexFile >> ans;
 							//Ahora leo todos los vertices y los guardo en la estructura
-							for (int i = 0; i < totalVertex; i++)
+							for (int i = 0; i < mesh.totalVertex; i++)
 							{
 								vertexFile >> tempVec[i].xn; // Agarra el vertice x
 								vertexFile >> ans;				  //Se come el punto y coma
@@ -133,10 +134,10 @@ void Parser::CargarVertices()
 						{
 							std::cout << "Cargadndo uvs" << std::endl;
 							//primero leo el total de vertices 
-							vertexFile >> totalVertex;
+							vertexFile >> mesh.totalVertex;
 							vertexFile >> ans;
 							//Ahora leo todos los vertices y los guardo en la estructura
-							for (int i = 0; i < totalVertex; i++)
+							for (int i = 0; i < mesh.totalVertex; i++)
 							{
 								vertexFile >> tempVec[i].u; // Agarra el vertice x
 								vertexFile >> ans;				  //Se come el punto y coma
@@ -150,11 +151,11 @@ void Parser::CargarVertices()
 						{
 							std::cout << "Cargadndo Metadata" << std::endl;
 							//primero leo el total de vertices 
-							vertexFile >> totalMaterials;
+							vertexFile >> mesh.totalMaterials;
 							vertexFile >> ans;
-							meshMetaInfo.resize(totalMaterials);
+							mesh.meshMetaInfo.resize(mesh.totalMaterials);
 							//Ahora leo todos los vertices y los guardo en la estructura
-							for (int i = 0; i < totalMaterials; i++)
+							for (int i = 0; i < mesh.totalMaterials; i++)
 							{
 								unsigned short matType;
 								vertexFile >> ans;				  
@@ -166,14 +167,14 @@ void Parser::CargarVertices()
 								vertexFile >> ans;				  
 								vertexFile >> ans;					
 								vertexFile >> ans;			
-								MaterialType.push_back(matType);
+								mesh.MaterialType.push_back(matType);
 							}
-							vertexFile >> totalMeta;
+							vertexFile >> mesh.totalMeta;
 							vertexFile >> ans;
-							meshMetaInfo.resize(totalMeta);
-							for (int i = 0; i < totalVertex; i++)
+							mesh.meshMetaInfo.resize(mesh.totalMeta);
+							for (int i = 0; i < mesh.totalVertex; i++)
 							{
-								for (int j = 0; j < totalMaterials; j++)
+								for (int j = 0; j < mesh.totalMaterials; j++)
 								{
 									MetaObject metaObject;
 									unsigned int x, y, z;
@@ -188,7 +189,7 @@ void Parser::CargarVertices()
 									metaObject.my = reinterpret_cast<float&>(y);
 									metaObject.mz = reinterpret_cast<float&>(z);
 
-									meshMetaInfo[i].submeta.push_back(metaObject);
+									mesh.meshMetaInfo[j].submeta.push_back(metaObject);
 								}
 							}
 						}
@@ -197,20 +198,21 @@ void Parser::CargarVertices()
 						{
 							std::cout << "Cargadndo Materiales" << std::endl;
 							//primero leo el total de vertices 
-							vertexFile >> totalMaterialsInMesh;
+							vertexFile >> mesh.totalMaterialsInMesh;
 							vertexFile >> ans;
-							vertexFile >> totalMaterials;
+							vertexFile >> mesh.totalMaterials;
 							vertexFile >> ans;
 
-							totalMeshMaterials.resize(totalMaterialsInMesh);
+							mesh.totalMeshMaterials.resize(mesh.totalMaterialsInMesh);
 							int matID=-1;
-							for (int i = 0; i < totalIndexes; i++)
+							for (int i = 0; i < mesh.totalIndexes; i++)
 							{
 								vertexFile >> matID;
 								vertexFile >> ans;
-								totalMeshMaterials[matID].mtlBuffer.push_back(indexCoordinatesMesh[meshNum][(i * 3) + 0]);
-								totalMeshMaterials[matID].mtlBuffer.push_back(indexCoordinatesMesh[meshNum][(i * 3) + 1]);
-								totalMeshMaterials[matID].mtlBuffer.push_back(indexCoordinatesMesh[meshNum][(i * 3) + 2]);
+								
+								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 0]);
+								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 1]);
+								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 2]);
 							}
 
 							done = true;
@@ -218,9 +220,8 @@ void Parser::CargarVertices()
 						
 						
 					}
-				TotalMeshes.push_back(tempVec);
-				
-				
+					mesh.TotalVertex = tempVec;
+					totalMeshes.push_back(mesh);				
 			}
 			vertexFile.close();
 		}

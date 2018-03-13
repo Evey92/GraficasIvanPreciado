@@ -17,32 +17,34 @@ void GLMesh::Create() {
 	free(fsSourceP);
 
 	parser.CargarVertices();
-	Mesh_Info.reserve(parser.totalMeshes);
+	Mesh_Info.reserve(parser.meshCount);
 
-	for (int i = 0; i < parser.totalMeshes ; i++)
+	for (int i = 0; i < parser.meshCount; i++)
 	{
 		MeshInfo tempMesh;
+		Parser::Mesh mesh = parser.totalMeshes[i];
+
 		g_pBaseDriver->CreateShader(vstr, fstr, SigBase);
 		
 		glGenBuffers(1, &tempMesh.VB);
 		glBindBuffer(GL_ARRAY_BUFFER, tempMesh.VB);
-		glBufferData(GL_ARRAY_BUFFER, parser.totalVertex * sizeof(Parser::Vertex), &parser.TotalMeshes[i][0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, mesh.totalVertex * sizeof(Parser::Vertex), &mesh.TotalVertex[0], GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glGenBuffers(1, &tempMesh.IB);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tempMesh.IB);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, parser.indexCoordinatesMesh[i].size() * sizeof(unsigned short), &parser.indexCoordinatesMesh[i][0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.indexCoordinatesMesh.size() * sizeof(unsigned short), &mesh.indexCoordinatesMesh[0], GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-		for (int j = 0; j < parser.totalMaterialsInMesh; j++)
+		for (int j = 0; j < mesh.totalMaterialsInMesh; j++)
 		{
 			SubsetInfo tmp_subset;
 			glGenBuffers(1, &tmp_subset.Id);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tmp_subset.Id);
 			glBufferData(
 				GL_ELEMENT_ARRAY_BUFFER,
-				parser.totalMeshMaterials[j].mtlBuffer.size() * sizeof(unsigned short),
-				&parser.totalMeshMaterials[j].mtlBuffer[0],
+				mesh.totalMeshMaterials[j].mtlBuffer.size() * sizeof(unsigned short),
+				&mesh.totalMeshMaterials[j].mtlBuffer[0],
 				GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			tempMesh.SubSets.push_back(tmp_subset);
@@ -61,27 +63,30 @@ void GLMesh::Draw(float *t, float *vp) {
 	if (t)
 		transform = t;
 
-	for (int i = 0; i < parser.totalMeshes; i++)
+	for (int i = 0; i < parser.meshCount; i++)
 	{
 		MeshInfo drawinfo = Mesh_Info[i];
+		Parser::Mesh mesh = parser.totalMeshes[i];
 
-		unsigned int sig = SigBase;
-		sig |= gSig;
+		
 		IDVGLShader * s=0;
 		XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, 80.0f, -80.0f), XVECTOR3(0.0f, 0.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
-		XMatPerspectiveLH(Projection, Deg2Rad(60.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
+		XMatViewLookAtLH(View, XVECTOR3(0.0f, 95.0f, -60.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
+		XMatPerspectiveLH(Projection, Deg2Rad(100.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 		XMatScaling(Scale, 1.0f, 1.0f, 1.0f);
 
 		XMATRIX44 VP = vp;
 		XMATRIX44 WV = vp;
 		XMATRIX44 WVP = Scale*View*Projection;
+		
+		unsigned int sig = SigBase;
+		sig |= gSig;
 
 		glBindBuffer(GL_ARRAY_BUFFER, drawinfo.VB);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, drawinfo.IB);
-		
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, drawinfo.IB);
+
 		for (int j = 0; j < drawinfo.SubSets.size(); j++)
 		{
 			SubsetInfo subinfo = drawinfo.SubSets[j];
@@ -101,7 +106,7 @@ void GLMesh::Draw(float *t, float *vp) {
 			glEnableVertexAttribArray(s->uvAttribLoc);
 			glVertexAttribPointer(s->uvAttribLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Parser::Vertex), BUFFER_OFFSET(32));
 
-			glDrawElements(GL_TRIANGLES, parser.indexCoordinatesMesh[i].size(), GL_UNSIGNED_SHORT, 0);
+			glDrawElements(GL_TRIANGLES, mesh.totalMeshMaterials[j].mtlBuffer.size(), GL_UNSIGNED_SHORT, 0);
 		}
 	}
 }
