@@ -61,7 +61,7 @@ void Parser::CargarVertices()
 						//Si encuentro la palabra " Mesh" me detengo y empieso a guardar los valores
 						if (!word.find(" Mesh mesh_"))
 						{
-							std::cout << "Cargadndo vertices del mesh" << std::endl;
+							std::cout << "Cargadndo vertices del mesh " << meshNum + 1 << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> totalVertex;
 							vertexFile >> ans;
@@ -82,7 +82,7 @@ void Parser::CargarVertices()
 							}
 							vertexFile >> totalIndexes;
 							vertexFile >> ans;
-							std::cout << "Indice" << totalIndexes << std::endl;
+							std::cout << "Indices: " << totalIndexes << std::endl;
 
 							//Ahora leo todos los vertices y los guardo en la estructura
 
@@ -109,7 +109,7 @@ void Parser::CargarVertices()
 
 						if (!word.find("  MeshNormals n"))
 						{
-							std::cout << "Cargadndo a normals" << std::endl;
+							std::cout << "Cargadndo Normals" << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> totalVertex;
 							vertexFile >> ans;
@@ -131,7 +131,7 @@ void Parser::CargarVertices()
 
 						if (!word.find("  MeshTextureCoords t"))
 						{
-							std::cout << "Cargadndo a uvs" << std::endl;
+							std::cout << "Cargadndo uvs" << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> totalVertex;
 							vertexFile >> ans;
@@ -148,7 +148,7 @@ void Parser::CargarVertices()
 
 						if (!word.find("  DeclData {"))
 						{
-							std::cout << "Cargadndo a Metadata" << std::endl;
+							std::cout << "Cargadndo Metadata" << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> totalMaterials;
 							vertexFile >> ans;
@@ -195,7 +195,7 @@ void Parser::CargarVertices()
 
 						if (!word.find("  MeshMaterialList"))
 						{
-							std::cout << "Cargadndo a Materiales" << std::endl;
+							std::cout << "Cargadndo Materiales" << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> totalMaterialsInMesh;
 							vertexFile >> ans;
