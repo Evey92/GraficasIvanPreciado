@@ -4,28 +4,29 @@
 #include <IDVScene/MYD3Mesh.h>
 #include <IDVScene/MYGLMesh.h>
 
-PrimitiveBase*	PrimitiveManager::GetPrimitive(unsigned int index) {
+IDVPrimitiveBase*	IDVPrimitiveManager::GetPrimitive(unsigned int index) {
 	if (index >= primitives.size())
 		return 0;
 
 	return primitives[index];
 }
 
-int PrimitiveManager::CreateQuad() {
-	PrimitiveBase *primitive = 0;
+int IDVPrimitiveManager::CreateQuad() {
+	IDVPrimitiveBase *primitive = 0;
 
-	if (this->SelectedApi == IDVAPI::OPENGL)
-		primitive = new GLQuad();
+	if(this->SelectedApi==IDVAPI::OPENGL)
+		primitive = new IDVGLQuad();
 	else
-		primitive = new D3DXQuad();
+		primitive = new IDVD3DQuad();
 
 	primitive->Create();
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
 }
-int PrimitiveManager::CreateMesh()
+
+int IDVPrimitiveManager::CreateMesh()
 {
-	PrimitiveBase *primitive = 0;
+	IDVPrimitiveBase *primitive = 0;
 
 	if (this->SelectedApi == IDVAPI::OPENGL)
 
@@ -37,19 +38,20 @@ int PrimitiveManager::CreateMesh()
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
 }
-void PrimitiveManager::SetSceneProps(SceneProps *p) {
+
+void IDVPrimitiveManager::SetSceneProps(IDVSceneProps *p) {
 	for (unsigned int i = 0; i < primitives.size(); i++) {
 		primitives[i]->SetSceneProps(p);
 	}
 }
 
-void PrimitiveManager::DrawPrimitives() {
-	for (unsigned int i = 0; i<primitives.size(); i++) {
-		primitives[i]->Draw(0, &(*pVP).m[0][0]);
+void IDVPrimitiveManager::DrawPrimitives() {
+	for(unsigned int i=0;i<primitives.size();i++){
+		primitives[i]->Draw(0,&(*pVP).m[0][0]);
 	}
 }
 
-void PrimitiveManager::DestroyPrimitives() {
+void IDVPrimitiveManager::DestroyPrimitives() {
 	for (unsigned int i = 0; i < primitives.size(); i++) {
 		primitives[i]->Destroy();
 		delete primitives[i];

@@ -16,7 +16,7 @@ using namespace Microsoft::WRL;
 #include <IDVParser.h>
 #include<vector>
 
-class D3DXMesh : public PrimitiveBase
+class D3DXMesh : public IDVPrimitiveBase
 {
 public:
 

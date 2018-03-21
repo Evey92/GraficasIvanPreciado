@@ -15,8 +15,8 @@ public:
 	void OnDraw();
 	void OnInput();
 
-	PrimitiveManager *PrimitiveMgr;
-	PrimitiveInst	 QuadInst;
+	IDVPrimitiveManager *PrimitiveMgr;
+	IDVPrimitiveInst	 QuadInst;
 };
 
 #endif

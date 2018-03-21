@@ -8,7 +8,7 @@
 #include <IDVScene\IDVPrimitive.h>
 #include <IDVParser.h>
 
-class GLMesh : public PrimitiveBase {
+class GLMesh : public IDVPrimitiveBase {
 public:
 
 	struct SubsetInfo {

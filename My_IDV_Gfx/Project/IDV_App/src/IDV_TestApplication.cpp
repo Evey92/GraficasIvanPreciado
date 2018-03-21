@@ -9,7 +9,7 @@ void IDVTestApplication::InitVars() {
 void IDVTestApplication::CreateAssets() {
 	XMATRIX44 VP;
 
-	PrimitiveMgr = new PrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
+	PrimitiveMgr = new IDVPrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
 
 	//int index = PrimitiveMgr->CreateQuad();
 	int index = PrimitiveMgr->CreateMesh();
