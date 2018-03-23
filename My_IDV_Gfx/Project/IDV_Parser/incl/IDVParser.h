@@ -58,8 +58,8 @@ public:
 		std::vector<MatSubset> totalMeshMaterials;
 		std::vector<MetaSubset> meshMetaInfo;
 		std::vector<unsigned short> MaterialType;
-
-		unsigned int totalVertex, totalIndexes, totalNormals, totalMeta, totalMaterials;
+		std::vector<std::string> nombresTexturas;
+		unsigned int totalVertex, totalIndexes, totalNormals, totalMeta, totalMaterials, totaltext = 0;
 		unsigned short type, totalMaterialsInMesh;
 	};
 

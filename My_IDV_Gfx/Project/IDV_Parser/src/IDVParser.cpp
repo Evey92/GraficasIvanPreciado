@@ -6,6 +6,8 @@
 #include <vector>
 #include <conio.h>
 #include <IDV_Math.h>
+#include <iomanip>
+
 
 
 
@@ -19,7 +21,7 @@ void Parser::CargarVertices()
 	//int totalVertex, totalIndexes, totalNormals;
 	std::vector<Vertex>::iterator vertexIterator;
 	//std::vector<VertexIndex>vertexIndexes;
-	std::string fileName, word;
+	std::string fileName, word, textureName;
 	
 	//totalMeshes=0;
 	char ans;
@@ -28,9 +30,9 @@ void Parser::CargarVertices()
 		//system("cls");
 		std::cout << "Por favor introduzca el nombre del archivo. \n";
 		getline(std::cin, fileName);
+		std::string path = "Models/";
 
-
-		vertexFile.open(fileName + ".X", std::ios_base::in, std::ios::binary);
+		vertexFile.open(path+fileName + ".X", std::ios_base::in, std::ios::binary);
 
 		
 
@@ -57,12 +59,13 @@ void Parser::CargarVertices()
 				mesh.totalVertex = 0;
 				mesh.totalIndexes = 0;
 				bool done = false;
+				std::cout << "Cargadndo datos del Mesh: " << meshNum + 1 << std::endl;
 				while(getline(vertexFile, word) && !done)
 				{					
 						//Si encuentro la palabra " Mesh" me detengo y empieso a guardar los valores
 						if (!word.find(" Mesh mesh_"))
 						{
-							std::cout << "Cargadndo vertices del mesh " << meshNum + 1 << std::endl;
+							std::cout << "Cargadndo vertices." << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> mesh.totalVertex;
 							vertexFile >> ans;
@@ -129,7 +132,7 @@ void Parser::CargarVertices()
 							//Ahora leo todos los vertices y los guardo en la estructura
 
 						}
-
+						
 						if (!word.find("  MeshTextureCoords t"))
 						{
 							std::cout << "Cargadndo uvs" << std::endl;
@@ -193,35 +196,88 @@ void Parser::CargarVertices()
 								}
 							}
 						}
-
-						if (!word.find("  MeshMaterialList"))
+						
+						if (meshNum <= 0)
 						{
-							std::cout << "Cargadndo Materiales" << std::endl;
-							//primero leo el total de vertices 
-							vertexFile >> mesh.totalMaterialsInMesh;
-							vertexFile >> ans;
-							vertexFile >> mesh.totalMaterials;
-							vertexFile >> ans;
-
-							mesh.totalMeshMaterials.resize(mesh.totalMaterialsInMesh);
-							int matID=-1;
-							for (int i = 0; i < mesh.totalIndexes; i++)
+							if (!word.find("  MeshMaterialList"))
 							{
-								vertexFile >> matID;
+								std::cout << "Cargadndo Materiales" << std::endl;
+								//primero leo el total de vertices 
+								vertexFile >> mesh.totalMaterialsInMesh;
 								vertexFile >> ans;
-								
-								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 0]);
-								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 1]);
-								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 2]);
+								vertexFile >> mesh.totalMaterials;
+								vertexFile >> ans;
+
+								mesh.totalMeshMaterials.resize(mesh.totalMaterialsInMesh);
+								int matID = -1;
+								for (int i = 0; i < mesh.totalIndexes; i++)
+								{
+									vertexFile >> matID;
+									vertexFile >> ans;
+
+									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 0]);
+									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 1]);
+									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 2]);
+								}
+
+								//done = true;
 							}
 
-							done = true;
+							if (!word.find("    TextureFilename Diffuse"))
+							{
+								vertexFile >> quoted(textureName);
+
+
+								mesh.nombresTexturas.push_back(textureName);
+								std::cout << "Nombre del tga: " << textureName << std::endl;
+								mesh.totaltext++;
+								done = true;
+
+							}
+						}
+						else
+						{
+							if (!word.find("  MeshMaterialList"))
+							{
+								std::cout << "Cargadndo Materiales" << std::endl;
+								//primero leo el total de vertices 
+								vertexFile >> mesh.totalMaterialsInMesh;
+								vertexFile >> ans;
+								vertexFile >> mesh.totalMaterials;
+								vertexFile >> ans;
+
+								mesh.totalMeshMaterials.resize(mesh.totalMaterialsInMesh);
+								int matID = -1;
+								for (int i = 0; i < mesh.totalIndexes; i++)
+								{
+									vertexFile >> matID;
+									vertexFile >> ans;
+
+									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 0]);
+									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 1]);
+									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 2]);
+								}
+
+								done = true;
+							}
+
+							if (!word.find("    TextureFilename Diffuse"))
+							{
+								vertexFile >> quoted(textureName);
+
+
+								mesh.nombresTexturas.push_back(textureName);
+								std::cout << "Nombre del tga: " << textureName << std::endl;
+								mesh.totaltext++;
+							}
 						}
 						
 						
 					}
 					mesh.TotalVertex = tempVec;
-					totalMeshes.push_back(mesh);				
+					totalMeshes.push_back(mesh);	
+					std::cout << "Texturas: " << totalMeshes[meshNum].totaltext<<std::endl;
+					std::cout << "Materials: " << totalMeshes[meshNum].totalMaterialsInMesh << std::endl;
 			}
 			vertexFile.close();
 		}
@@ -232,8 +288,11 @@ void Parser::CargarVertices()
 			std::cin.ignore();
 		}
 		//vertexFile.close();
+		std::cout << "Modelo cargado con exito." << std::endl;
+		
+		
 	} while (ans == 'Y' || ans == 'y');
-	
+	//std::cout << "TextName " << totalMeshes[0].nombresTexturas << std::endl;
 }
 
 

@@ -34,6 +34,8 @@ public:
 	unsigned int	IB;
 	XMATRIX44		transform;
 
+	int			 TexId;
+	Texture		*pTexture;
 	Parser parser;
 };
 

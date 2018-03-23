@@ -1,10 +1,13 @@
 #include <IDVVideo/IDVGLShader.h>
 #include <IDVUtils/IDVUtils.h>
+#include <IDVVideo/IDVGLTexture.h>
 #include <IDVScene/MYGLMesh.h>
 #include <IDV_Math.h>
 #include <string>
 
 void GLMesh::Create() {
+
+
 	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS | IDVSig::HAS_TANGENTS | IDVSig::HAS_BINORMALS;
 
 	char *vsSourceP = file2string("Shaders/VS_Mesh.glsl");
@@ -35,6 +38,17 @@ void GLMesh::Create() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tempMesh.IB);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.indexCoordinatesMesh.size() * sizeof(unsigned short), &mesh.indexCoordinatesMesh[0], GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		for (int x = 0; x < mesh.totaltext; x++)
+		{
+			pTexture = new GLTexture;
+
+			TexId = pTexture->LoadTexture(mesh.nombresTexturas[x].c_str());
+
+			if (TexId == -1) {
+				delete pTexture;
+			}
+		}
 
 		for (int j = 0; j < mesh.totalMaterialsInMesh; j++)
 		{
@@ -73,9 +87,13 @@ void GLMesh::Draw(float *t, float *vp) {
 		XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, 95.0f, -60.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
+		/*XMatViewLookAtLH(View, XVECTOR3(0.0f, 20.0f, 0.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
 		XMatPerspectiveLH(Projection, Deg2Rad(100.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-		XMatScaling(Scale, 1.0f, 1.0f, 1.0f);
+		XMatScaling(Scale, 1.0f, 1.0f, 1.0f);*/
+
+		XMatViewLookAtLH(View, XVECTOR3(0.0f, -1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
+		XMatPerspectiveLH(Projection, Deg2Rad(100.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
+		XMatScaling(Scale, 0.5f, 0.5f, 0.5f);
 
 		XMATRIX44 VP = vp;
 		XMATRIX44 WV = vp;
@@ -96,6 +114,11 @@ void GLMesh::Draw(float *t, float *vp) {
 			glUniformMatrix4fv(s->matWorldUniformLoc, 1, GL_FALSE, &transform.m[0][0]);
 			glUniformMatrix4fv(s->matWorldViewProjUniformLoc, 1, GL_FALSE, &WVP.m[0][0]);
 			glUniformMatrix4fv(s->matWorldViewUniformLoc, 1, GL_FALSE, &WV.m[0][0]);
+
+			GLTexture *texgl = dynamic_cast<GLTexture*>(this->pTexture);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texgl->id);
+			glUniform1i(s->DiffuseTex_loc, 0);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, subinfo.Id);
 

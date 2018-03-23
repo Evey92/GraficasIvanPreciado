@@ -1,7 +1,6 @@
 #ifndef IDV_MESH_D3D_H
 #define IDV_MESH_D3D_H
 
-#include <IDV_Math.h>
 #include <wrl.h>
 #include <wrl/client.h>
 using namespace Microsoft::WRL;
@@ -13,7 +12,6 @@ using namespace Microsoft::WRL;
 #include <IDVParser.h>
 #include <IDVVideo\IDVBaseDriver.h>
 #include <IDVScene\IDVPrimitive.h>
-#include <IDVParser.h>
 #include<vector>
 
 class D3DXMesh : public IDVPrimitiveBase
@@ -59,6 +57,9 @@ public:
 	CBuffer			CnstBuffer;
 	XMATRIX44		transform;
 	Parser parser;
+
+	int			 TexId;
+	Texture		*pTexture;
 };
 
 #endif
