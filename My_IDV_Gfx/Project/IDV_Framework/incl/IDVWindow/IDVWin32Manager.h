@@ -19,7 +19,6 @@ public:
 	void UpdateApplication();
 	void ProcessInput();
 
-	InputManager inputManager;
 	//Camera MainCamera;
 };
 

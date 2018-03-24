@@ -31,7 +31,7 @@ void IDVTestApplication::DestroyAssets() {
 }
 
 void IDVTestApplication::OnUpdate() {
-
+	TimeManager.Update();
 	OnDraw();
 	MainCamera.Update(1.0f);
 }
@@ -45,13 +45,13 @@ void IDVTestApplication::OnDraw(){
 }
 
 void IDVTestApplication::OnInput() {
-	/*for (int i = 0; i< MAXKEYS; i++)
+	for (int i = 0; i< MAXKEYS; i++)
 	{
-		if (i == 119 && iManager.KeyStates[0][i] == true)
+		if (i == 119 && inputManager.KeyStates[0][i] == true)
 		{
 			printf(".");
 			TimeManager.GetDTSecs();
 			MainCamera.MoveForward(.016f);
 		}
-	}*/
+	}
 }

@@ -64,7 +64,7 @@ void IDVWin32Manager::ProcessInput() {
 			}
 			else if (evento.key.keysym.sym == SDLK_w)
 			{
-				//MainCamera.
+				std::cout << "Picaste W lel";
 			}
 			
 		}break;
