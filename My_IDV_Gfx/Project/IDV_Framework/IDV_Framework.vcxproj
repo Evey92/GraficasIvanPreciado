@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="src\IDVScene\IDVD3DQuad.cpp" />
     <ClCompile Include="src\IDVScene\IDVGLQuad.cpp" />
     <ClCompile Include="src\IDVScene\IDVPrimitiveInstance.cpp" />

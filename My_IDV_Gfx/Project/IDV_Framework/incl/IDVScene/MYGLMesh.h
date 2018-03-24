@@ -7,6 +7,8 @@
 #include <IDVVideo\IDVBaseDriver.h>
 #include <IDVScene\IDVPrimitive.h>
 #include <IDVParser.h>
+#include <map>
+#include <string>
 
 class GLMesh : public IDVPrimitiveBase {
 public:
@@ -36,6 +38,7 @@ public:
 
 	int			 TexId;
 	Texture		*pTexture;
+	std::map<std::string, Texture*> textureMap;
 	Parser parser;
 };
 

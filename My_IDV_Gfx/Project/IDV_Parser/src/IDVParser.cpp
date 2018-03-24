@@ -56,9 +56,10 @@ void Parser::CargarVertices()
 				std::vector<Vertex> tempVec;
 				std::vector<unsigned short> indexCoordinates;
 				Mesh mesh;
+				int txts = 0;
 				mesh.totalVertex = 0;
 				mesh.totalIndexes = 0;
-				bool done = false;
+				bool  done = false;
 				std::cout << "Cargadndo datos del Mesh: " << meshNum + 1 << std::endl;
 				while(getline(vertexFile, word) && !done)
 				{					
@@ -197,83 +198,50 @@ void Parser::CargarVertices()
 							}
 						}
 						
-						if (meshNum <= 0)
+
+						if (!word.find("  MeshMaterialList"))
 						{
-							if (!word.find("  MeshMaterialList"))
+							std::cout << "Cargadndo Materiales" << std::endl;
+							//primero leo el total de vertices 
+							vertexFile >> mesh.totalMaterialsInMesh;
+							vertexFile >> ans;
+							vertexFile >> mesh.totalMaterials;
+							vertexFile >> ans;
+
+							mesh.totalMeshMaterials.resize(mesh.totalMaterialsInMesh);
+							int matID = -1;
+							for (int i = 0; i < mesh.totalIndexes; i++)
 							{
-								std::cout << "Cargadndo Materiales" << std::endl;
-								//primero leo el total de vertices 
-								vertexFile >> mesh.totalMaterialsInMesh;
-								vertexFile >> ans;
-								vertexFile >> mesh.totalMaterials;
+								vertexFile >> matID;
 								vertexFile >> ans;
 
-								mesh.totalMeshMaterials.resize(mesh.totalMaterialsInMesh);
-								int matID = -1;
-								for (int i = 0; i < mesh.totalIndexes; i++)
-								{
-									vertexFile >> matID;
-									vertexFile >> ans;
-
-									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 0]);
-									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 1]);
-									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 2]);
-								}
-
-								//done = true;
+								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 0]);
+								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 1]);
+								mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 2]);
 							}
 
-							if (!word.find("    TextureFilename Diffuse"))
-							{
-								vertexFile >> quoted(textureName);
-
-
-								mesh.nombresTexturas.push_back(textureName);
-								std::cout << "Nombre del tga: " << textureName << std::endl;
-								mesh.totaltext++;
-								done = true;
-
-							}
+							//done = true;
 						}
-						else
+
+						if (!word.find("    TextureFilename Diffuse"))
 						{
-							if (!word.find("  MeshMaterialList"))
-							{
-								std::cout << "Cargadndo Materiales" << std::endl;
-								//primero leo el total de vertices 
-								vertexFile >> mesh.totalMaterialsInMesh;
-								vertexFile >> ans;
-								vertexFile >> mesh.totalMaterials;
-								vertexFile >> ans;
-
-								mesh.totalMeshMaterials.resize(mesh.totalMaterialsInMesh);
-								int matID = -1;
-								for (int i = 0; i < mesh.totalIndexes; i++)
-								{
-									vertexFile >> matID;
-									vertexFile >> ans;
-
-									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 0]);
-									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 1]);
-									mesh.totalMeshMaterials[matID].mtlBuffer.push_back(mesh.indexCoordinatesMesh[(i * 3) + 2]);
-								}
-
-								done = true;
-							}
-
-							if (!word.find("    TextureFilename Diffuse"))
-							{
-								vertexFile >> quoted(textureName);
+							vertexFile >> quoted(textureName);
 
 
-								mesh.nombresTexturas.push_back(textureName);
-								std::cout << "Nombre del tga: " << textureName << std::endl;
-								mesh.totaltext++;
-							}
+							mesh.nombresTexturas.push_back(textureName);
+							std::cout << "Nombre del tga: " << textureName << std::endl;
+							mesh.totaltext++;
+							txts++;
+							//done = true;
+
 						}
-						
-						
+
+						if (txts >= mesh.totalMaterialsInMesh)
+						{
+							done = true;
+						}
 					}
+
 					mesh.TotalVertex = tempVec;
 					totalMeshes.push_back(mesh);	
 					std::cout << "Texturas: " << totalMeshes[meshNum].totaltext<<std::endl;

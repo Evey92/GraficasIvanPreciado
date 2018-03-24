@@ -61,7 +61,19 @@ void GLMesh::Create() {
 				&mesh.totalMeshMaterials[j].mtlBuffer[0],
 				GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+			pTexture = new GLTexture;
+
+			TexId = pTexture->LoadTexture(mesh.nombresTexturas[j].c_str());
+
+			if (TexId == -1) {
+				delete pTexture;
+			}
+
+
 			tempMesh.SubSets.push_back(tmp_subset);
+			textureMap.insert(std::make_pair(mesh.nombresTexturas[j], (pTexture)));
+
 		}
 		Mesh_Info.push_back(tempMesh);
 
@@ -115,7 +127,8 @@ void GLMesh::Draw(float *t, float *vp) {
 			glUniformMatrix4fv(s->matWorldViewProjUniformLoc, 1, GL_FALSE, &WVP.m[0][0]);
 			glUniformMatrix4fv(s->matWorldViewUniformLoc, 1, GL_FALSE, &WV.m[0][0]);
 
-			GLTexture *texgl = dynamic_cast<GLTexture*>(this->pTexture);
+
+			GLTexture *texgl = dynamic_cast<GLTexture*>(this->textureMap.find(mesh.nombresTexturas[j])->second);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texgl->id);
 			glUniform1i(s->DiffuseTex_loc, 0);

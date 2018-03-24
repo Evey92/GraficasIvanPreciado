@@ -96,6 +96,9 @@
     <ClCompile Include="src\IDVUtils\InputManager.cpp">
       <Filter>Source Files\IDVUtils</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\IDVUtils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="incl\IDVBase\IDVCoreBase.h">

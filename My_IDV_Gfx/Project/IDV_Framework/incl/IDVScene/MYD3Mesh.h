@@ -13,7 +13,7 @@ using namespace Microsoft::WRL;
 #include <IDVVideo\IDVBaseDriver.h>
 #include <IDVScene\IDVPrimitive.h>
 #include<vector>
-
+#include<map>
 class D3DXMesh : public IDVPrimitiveBase
 {
 public:
@@ -60,6 +60,8 @@ public:
 
 	int			 TexId;
 	Texture		*pTexture;
+	std::vector<Texture*> textureCollection;
+	std::map<std::string, Texture*> textureMap;
 };
 
 #endif
