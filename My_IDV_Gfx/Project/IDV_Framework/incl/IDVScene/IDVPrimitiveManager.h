@@ -2,7 +2,7 @@
 #define IDV_PRIMITIVEMANAGER_H
 
 #include <d3dx9math.h>
-
+#include <IDV_Math.h>
 #include <vector>
 
 #include <IDVVideo/IDVBaseDriver.h>
@@ -12,7 +12,7 @@
 class IDVPrimitiveManager {
 public:
 	IDVPrimitiveManager(IDVAPI Selected) { SelectedApi = Selected;  }
-	void SetVP(D3DXMATRIX *vp) {
+	void SetVP(XMATRIX44 *vp) {
 		pVP = vp;
 	}
 	int  CreateQuad();
@@ -26,7 +26,7 @@ public:
 	std::vector<IDVPrimitiveBase*> primitives;
 
 	IDVAPI		SelectedApi;
-	D3DXMATRIX *pVP;
+	XMATRIX44 *pVP;
 };
 
 #endif

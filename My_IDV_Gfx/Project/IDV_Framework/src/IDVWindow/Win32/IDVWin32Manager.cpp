@@ -62,6 +62,10 @@ void IDVWin32Manager::ProcessInput() {
 			if (evento.key.keysym.sym == SDLK_q) {
 				m_bAlive = false;
 			}
+			else if (evento.key.keysym.sym == SDLK_w)
+			{
+				//MainCamera.
+			}
 			
 		}break;
 

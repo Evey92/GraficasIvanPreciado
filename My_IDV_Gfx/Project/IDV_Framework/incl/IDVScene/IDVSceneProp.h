@@ -1,13 +1,14 @@
 #ifndef IDV_SCENEPROPS_H
 #define IDV_SCENEPROPS_H
 
+#include <IDV_Math.h>
 #include <d3dx9math.h>
 
 #include <vector>
 
 struct IDVLight{
-	D3DXVECTOR3 Position;
-	D3DXVECTOR3 Color;
+	XVECTOR3  Position;
+	XVECTOR3  Color;
 	int		 Type;
 	int		 Enabled;
 };
@@ -15,13 +16,13 @@ struct IDVLight{
 struct IDVSceneProps{
 	IDVSceneProps() : ActiveCamera(0) , ActiveLights(1), ActiveLightCamera(0), ActiveGaussKernel(0), Exposure(0.3f) , BloomFactor(1.1f) {}
 
-	void	AddLight(D3DXVECTOR3 Pos, D3DXVECTOR3 Color,bool enabled);
+	void	AddLight(XVECTOR3  Pos, XVECTOR3  Color,bool enabled);
 	void	RemoveLight(unsigned int index);
-	void	SetLightPos(unsigned int index, D3DXVECTOR3);
+	void	SetLightPos(unsigned int index, XVECTOR3);
 
 	std::vector<IDVLight>	   Lights;
 
-	D3DXVECTOR3			AmbientColor;
+	XVECTOR3			AmbientColor;
 
 	int ActiveCamera;
 	int	ActiveLights;
