@@ -6,8 +6,14 @@
 
 
 void IDVTestApplication::InitVars() {
-	MainCamera.Init(XVECTOR3(0.0f, 1.0f, -10.0f), Deg2Rad(100.0f), (16.0f / 9.0f), 0.1f, 10000, 1);
+
 	TimeManager.Init();
+	TimeManager.Update();
+	MainCamera.Init(XVECTOR3(0.0f, 1.0f, -10.0f), Deg2Rad(100.0f), (16.0f / 9.0f), 0.1f, 100000, 1);
+	MainCamera.Update(0.0f);
+	srand((unsigned int)TimeManager.GetDTSecs());
+	sceneProp.AddCamera(&MainCamera);
+	firstFrame = true;
 }
 
 void IDVTestApplication::CreateAssets() {
@@ -22,6 +28,8 @@ void IDVTestApplication::CreateAssets() {
 	//for(int i = 0; i <  ; i++ )
 	int i = 0;
 	Models[i].CreateInstance(PrimitiveMgr->GetPrimitive(index), &MainCamera.VP);
+
+	PrimitiveMgr->SetSceneProps(&sceneProp);
 }
 
 
@@ -32,8 +40,10 @@ void IDVTestApplication::DestroyAssets() {
 
 void IDVTestApplication::OnUpdate() {
 	TimeManager.Update();
+	deltaTime = TimeManager.GetDTSecs();
+	OnInput();
+	MainCamera.Update(deltaTime);
 	OnDraw();
-	MainCamera.Update(1.0f);
 }
 
 void IDVTestApplication::OnDraw(){
@@ -42,33 +52,49 @@ void IDVTestApplication::OnDraw(){
 	Models[0].Draw();
 	
 	m_pWindow->m_pVideoDriver->SwapBuffers();
+	firstFrame = false;
 }
 
 void IDVTestApplication::OnInput() {
 	for (int i = 0; i< MAXKEYS; i++)
 	{
-		if (i == 119 && inputManager.KeyStates[0][i] == true)
+		if (inputManager.PressedKey(T800K_w))
 		{
 			//std::cout << "Amos pa delanteprrro" << std::endl;
-			TimeManager.GetDTSecs();
-			MainCamera.MoveForward(2.0f);
+			MainCamera.MoveForward(deltaTime);
 		}
-		else if (i == 97 && inputManager.KeyStates[0][i] == true)
+		else if (inputManager.PressedKey(T800K_a))
 		{
-			TimeManager.GetDTSecs();
-			MainCamera.StrafeLeft(2.0f);
+			MainCamera.StrafeLeft(deltaTime);
 		}
-		else if(i == 115 && inputManager.KeyStates[0][i] == true)
+		else if(inputManager.PressedKey(T800K_s))
 		{
-			//std::cout << "Amos pa delanteprrro" << std::endl;
-			TimeManager.GetDTSecs();
-			MainCamera.MoveBackward(2.0f);
+			MainCamera.MoveBackward(deltaTime);
 		}
-		else if (i == 100 && inputManager.KeyStates[0][i] == true)
+		else if (inputManager.PressedKey(T800K_d))
 		{
-			//std::cout << "Amos pa delanteprrro" << std::endl;
-			TimeManager.GetDTSecs();
-			MainCamera.StrafeRight(2.0f);
+
+			MainCamera.StrafeRight(deltaTime);
+		}
+		else if (inputManager.PressedKey(T800K_SPACE))
+		{
+
+			MainCamera.MoveUp(deltaTime);
+		}
+		else if (inputManager.PressedKey(T800K_c))
+		{
+
+			MainCamera.MoveDown(deltaTime);
+		}
+		else if (inputManager.PressedKey(T800K_e))
+		{
+
+			MainCamera.TurnRight(deltaTime);
+		}
+		else if (inputManager.PressedKey(T800K_q))
+		{
+
+			MainCamera.TurnLeft(deltaTime);
 		}
 	}
 }

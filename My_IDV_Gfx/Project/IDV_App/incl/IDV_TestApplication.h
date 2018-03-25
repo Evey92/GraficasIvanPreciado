@@ -17,6 +17,8 @@ public:
 	void OnDraw();
 	void OnInput();
 
+	float deltaTime;
+	bool firstFrame;
 	Camera MainCamera;
 
 	XMATRIX44 View;
@@ -26,6 +28,7 @@ public:
 	IDVPrimitiveManager *PrimitiveMgr;
 	IDVPrimitiveInst	 QuadInst;
 	IDVPrimitiveInst	Models[10];
+	IDVSceneProps sceneProp;
 };
 
 #endif

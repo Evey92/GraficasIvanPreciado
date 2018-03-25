@@ -22,3 +22,8 @@ void	IDVSceneProps::SetLightPos(unsigned int index, XVECTOR3 pos){
 
 	Lights[index].Position = pos;
 }
+
+void	IDVSceneProps::AddCamera(Camera* cam)
+{
+	CameraCollection.push_back(cam);
+}

@@ -3,7 +3,7 @@
 
 #include <IDV_Math.h>
 #include <d3dx9math.h>
-
+#include <IDVUtils/Camera.h>
 #include <vector>
 
 struct IDVLight{
@@ -19,10 +19,11 @@ struct IDVSceneProps{
 	void	AddLight(XVECTOR3  Pos, XVECTOR3  Color,bool enabled);
 	void	RemoveLight(unsigned int index);
 	void	SetLightPos(unsigned int index, XVECTOR3);
+	void	AddCamera(Camera*);
 
 	std::vector<IDVLight>	   Lights;
-
 	XVECTOR3			AmbientColor;
+	std::vector<Camera*>	CameraCollection;
 
 	int ActiveCamera;
 	int	ActiveLights;

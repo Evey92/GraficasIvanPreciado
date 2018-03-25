@@ -60,27 +60,12 @@ void IDVWin32Manager::ProcessInput() {
 	SDL_Event       evento;
 	while (SDL_PollEvent(&evento)) {
 		switch (evento.type) {
-		case SDL_KEYDOWN: {
-			if (evento.key.keysym.sym == SDLK_q) {
+		case SDL_KEYDOWN: 
+		{
+			if (evento.key.keysym.sym == SDLK_ESCAPE) {
 				m_bAlive = false;
 			}
-			else if (evento.key.keysym.sym == SDLK_w)
-			{
-				m_pApplication->inputManager.KeyStates[0][119]=true;
-			}
-			else if (evento.key.keysym.sym == SDLK_a)
-			{
-				m_pApplication->inputManager.KeyStates[0][97] = true;
-			}
-			else if (evento.key.keysym.sym == SDLK_s)
-			{
-				m_pApplication->inputManager.KeyStates[0][115] = true;
-			}
-			else if (evento.key.keysym.sym == SDLK_d)
-			{
-				m_pApplication->inputManager.KeyStates[0][100] = true;
-				
-			}
+			m_pApplication->inputManager.KeyStates[0][evento.key.keysym.sym] = true;
 			
 		}break;
 
@@ -88,25 +73,10 @@ void IDVWin32Manager::ProcessInput() {
 			m_bAlive = false;
 		}break;
 
-		case SDL_KEYUP: {
-			if (evento.key.keysym.sym == SDLK_w)
-			{
-				m_pApplication->inputManager.KeyStates[0][119] = false;
-				//printf("stopping front");
-			}
-			else if (evento.key.keysym.sym == SDLK_a)
-			{
-				m_pApplication->inputManager.KeyStates[0][97] = false;
-			}
-			else if (evento.key.keysym.sym == SDLK_s)
-			{
-				m_pApplication->inputManager.KeyStates[0][115] = false;
-			}
-			else if (evento.key.keysym.sym == SDLK_d)
-			{
-				m_pApplication->inputManager.KeyStates[0][100] = false;
-
-			}
+		case SDL_KEYUP: 
+		{
+			m_pApplication->inputManager.KeyStates[0][evento.key.keysym.sym] = false;
+			m_pApplication->inputManager.KeyStates[1][evento.key.keysym.sym] = false;
 		}break;
 
 		case SDL_VIDEORESIZE: {
