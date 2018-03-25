@@ -40,7 +40,7 @@ void IDVTestApplication::OnDraw(){
 	m_pWindow->m_pVideoDriver->Clear();
 
 	Models[0].Draw();
-
+	
 	m_pWindow->m_pVideoDriver->SwapBuffers();
 }
 
@@ -49,9 +49,26 @@ void IDVTestApplication::OnInput() {
 	{
 		if (i == 119 && inputManager.KeyStates[0][i] == true)
 		{
-			printf(".");
+			//std::cout << "Amos pa delanteprrro" << std::endl;
 			TimeManager.GetDTSecs();
-			MainCamera.MoveForward(.016f);
+			MainCamera.MoveForward(2.0f);
+		}
+		else if (i == 97 && inputManager.KeyStates[0][i] == true)
+		{
+			TimeManager.GetDTSecs();
+			MainCamera.StrafeLeft(2.0f);
+		}
+		else if(i == 115 && inputManager.KeyStates[0][i] == true)
+		{
+			//std::cout << "Amos pa delanteprrro" << std::endl;
+			TimeManager.GetDTSecs();
+			MainCamera.MoveBackward(2.0f);
+		}
+		else if (i == 100 && inputManager.KeyStates[0][i] == true)
+		{
+			//std::cout << "Amos pa delanteprrro" << std::endl;
+			TimeManager.GetDTSecs();
+			MainCamera.StrafeRight(2.0f);
 		}
 	}
 }

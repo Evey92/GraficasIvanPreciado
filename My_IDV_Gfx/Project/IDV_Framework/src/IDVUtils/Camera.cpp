@@ -26,6 +26,7 @@ void Camera::Init(XVECTOR3 position, float fov, float ratio, float np, float fp,
 	Eye = position;
 	SetLookAt(XVECTOR3(0, 0, 0));
 	Update(1.0f);
+	
 }
 
 void Camera::CreatePojection()
@@ -36,27 +37,33 @@ void Camera::CreatePojection()
 void Camera::SetLookAt(XVECTOR3 v)
 {
 	Look = v;
-	XMatViewLookAtLH(View, Eye, Look, Up);
+	//XMatViewLookAtLH(View, Eye, Look, Up);
 }
 
 void Camera::MoveForward(float dt)
 {
-	std::cout <<"Te moviste para adelante" << std::endl;
+		XVECTOR3 moveVector(Look.x, 0.0f, 0.0f);
+		moveVector *= dt;
+		m_Velocity += moveVector;
+
 }
 
 void Camera::MoveBackward(float dt)
 {
-
+	std::cout << "Te moviste para atras" << std::endl;
+	XVECTOR3 moveVector(Look.x, 0.0f, 0.0f);
+	moveVector *= dt;
+	m_Velocity -= moveVector;
 }
 
 void Camera::StrafeLeft(float dt)
 {
-
+	m_Velocity += Right * dt;
 }
 
 void Camera::StrafeRight(float dt)
 {
-	
+	m_Velocity -= Right * dt;
 }
 
 
@@ -78,6 +85,18 @@ void Camera::MoveRoll(float f)
 void Camera::Update(float dt)
 {
 	VP = View*Projection;
+	Eye += m_Velocity;
+	//
+	m_Velocity = XVECTOR3(0.0f, 0.0f, 0.0f);
+	//
+	LookAt = Eye + Look;
+
+	XVECTOR3 up = XVECTOR3(0.0f, 1.0f, 0.0f);
+	XMatViewLookAtLH(View, Eye, Look, Up);
+	
+	float lookLengthOnXZ = sqrtf(Look.z * Look.z + Look.x * Look.x);
+	Pitch = atan2f(Look.y, lookLengthOnXZ);
+	Yaw = atan2f(Look.x, Look.z);
 }
 
 void Camera::Reset()

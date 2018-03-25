@@ -1,5 +1,6 @@
 #include <IDVWindow/IDVWin32Manager.h>
 
+
 #include <IDVVideo/IDVGLDriver.h>
 
 #include <IDVVideo/IDVD3DXDriver.h>
@@ -50,6 +51,7 @@ void IDVWin32Manager::OnDestroyApplication() {
 void IDVWin32Manager::UpdateApplication() {
 	while (m_bAlive) {
 		ProcessInput();
+		m_pApplication->OnInput();
 		m_pApplication->OnUpdate();
 	}
 }
@@ -64,7 +66,20 @@ void IDVWin32Manager::ProcessInput() {
 			}
 			else if (evento.key.keysym.sym == SDLK_w)
 			{
-				std::cout << "Picaste W lel";
+				m_pApplication->inputManager.KeyStates[0][119]=true;
+			}
+			else if (evento.key.keysym.sym == SDLK_a)
+			{
+				m_pApplication->inputManager.KeyStates[0][97] = true;
+			}
+			else if (evento.key.keysym.sym == SDLK_s)
+			{
+				m_pApplication->inputManager.KeyStates[0][115] = true;
+			}
+			else if (evento.key.keysym.sym == SDLK_d)
+			{
+				m_pApplication->inputManager.KeyStates[0][100] = true;
+				
 			}
 			
 		}break;
@@ -74,7 +89,24 @@ void IDVWin32Manager::ProcessInput() {
 		}break;
 
 		case SDL_KEYUP: {
+			if (evento.key.keysym.sym == SDLK_w)
+			{
+				m_pApplication->inputManager.KeyStates[0][119] = false;
+				//printf("stopping front");
+			}
+			else if (evento.key.keysym.sym == SDLK_a)
+			{
+				m_pApplication->inputManager.KeyStates[0][97] = false;
+			}
+			else if (evento.key.keysym.sym == SDLK_s)
+			{
+				m_pApplication->inputManager.KeyStates[0][115] = false;
+			}
+			else if (evento.key.keysym.sym == SDLK_d)
+			{
+				m_pApplication->inputManager.KeyStates[0][100] = false;
 
+			}
 		}break;
 
 		case SDL_VIDEORESIZE: {

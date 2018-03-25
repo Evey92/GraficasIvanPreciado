@@ -1,6 +1,6 @@
 #ifndef IDV_TEST_APPLICATION
 #define IDV_TEST_APPLICATION
-
+#include <IDV_Math.h>
 #include <IDVBase/IDVCoreBase.h>
 #include <IDVScene/IDVPrimitiveManager.h>
 #include <IDVScene/IDVPrimitiveInstance.h>

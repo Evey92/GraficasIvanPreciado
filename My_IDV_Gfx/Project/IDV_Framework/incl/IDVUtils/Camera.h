@@ -54,7 +54,8 @@ public:
 	XVECTOR3	Right;
 	XVECTOR3	Up;
 
-	XVECTOR3	Velocity;
+	XVECTOR3	m_Velocity;
+	XVECTOR3	LookAt;
 
 	XMATRIX44	Position;
 	XMATRIX44	RotX;
