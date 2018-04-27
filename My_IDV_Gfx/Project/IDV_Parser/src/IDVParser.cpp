@@ -21,52 +21,59 @@ void Parser::CargarVertices()
 	//int totalVertex, totalIndexes, totalNormals;
 	std::vector<Vertex>::iterator vertexIterator;
 	//std::vector<VertexIndex>vertexIndexes;
-	std::string fileName, word, textureName;
+	std::string fileName, word, textureName, normalName, txtNormal;
 	
 	//totalMeshes=0;
 	char ans;
-	do
-	{
-		//system("cls");
-		std::cout << "Por favor introduzca el nombre del archivo. \n";
-		getline(std::cin, fileName);
-		std::string path = "Models/";
-
-		vertexFile.open(path+fileName + ".X", std::ios_base::in, std::ios::binary);
-
+	
+	/*std::cout << "Cuantos modelos desea cargar. \n";
+	std::cin>>modelos;
+	std::cin.ignore();
+	for (int x = 0; x < modelos; x++)
+	{*/
 		
-
-		if (vertexFile.is_open())
+		do
 		{
-			std::cout << "Archivo cargado con exito!" << std::endl;
-			ans = 'l';
+			//system("cls");
+			std::cout << "Por favor introduzca el nombre del archivo. \n";
+			getline(std::cin, fileName);
+			std::string path = "Models/";
 
-			while (getline(vertexFile, word) && !vertexFile.eof())
+			vertexFile.open(path + fileName + ".X", std::ios_base::in, std::ios::binary);
+
+
+
+			if (vertexFile.is_open())
 			{
-				if (!word.find(" Mesh mesh_"))
+				std::cout << "Archivo cargado con exito!" << std::endl;
+				ans = 'l';
+
+				while (getline(vertexFile, word) && !vertexFile.eof())
 				{
-					meshCount++;
+					if (!word.find(" Mesh mesh_"))
+					{
+						meshCount++;
+					}
 				}
-			} 
-			vertexFile.clear();
-			vertexFile.seekg(0,vertexFile.beg);
+				vertexFile.clear();
+				vertexFile.seekg(0, vertexFile.beg);
 
-			for(int meshNum = 0; meshNum < meshCount; meshNum++)
-			{
-				std::vector<Vertex> tempVec;
-				std::vector<unsigned short> indexCoordinates;
-				Mesh mesh;
-				int txts = 0;
-				mesh.totalVertex = 0;
-				mesh.totalIndexes = 0;
-				bool  done = false;
-				std::cout << "Cargadndo datos del Mesh: " << meshNum + 1 << std::endl;
-				while(getline(vertexFile, word) && !done)
-				{					
+				for (int meshNum = 0; meshNum < meshCount; meshNum++)
+				{
+					std::vector<Vertex> tempVec;
+					std::vector<unsigned short> indexCoordinates;
+					Mesh mesh;
+					int txts = 0;
+					mesh.totalVertex = 0;
+					mesh.totalIndexes = 0;
+					bool  done = false;
+					std::cout << "Cargando datos del Mesh: " << meshNum + 1 << std::endl;
+					while (getline(vertexFile, word) && !done)
+					{
 						//Si encuentro la palabra " Mesh" me detengo y empieso a guardar los valores
 						if (!word.find(" Mesh mesh_"))
 						{
-							std::cout << "Cargadndo vertices." << std::endl;
+							std::cout << "Cargando vertices." << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> mesh.totalVertex;
 							vertexFile >> ans;
@@ -114,7 +121,7 @@ void Parser::CargarVertices()
 
 						if (!word.find("  MeshNormals n"))
 						{
-							std::cout << "Cargadndo Normals" << std::endl;
+							std::cout << "Cargando Normals" << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> mesh.totalVertex;
 							vertexFile >> ans;
@@ -133,10 +140,10 @@ void Parser::CargarVertices()
 							//Ahora leo todos los vertices y los guardo en la estructura
 
 						}
-						
+
 						if (!word.find("  MeshTextureCoords t"))
 						{
-							std::cout << "Cargadndo uvs" << std::endl;
+							std::cout << "Cargando uvs" << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> mesh.totalVertex;
 							vertexFile >> ans;
@@ -148,12 +155,12 @@ void Parser::CargarVertices()
 								vertexFile >> tempVec[i].v; // Agarra el vertice 
 								vertexFile >> ans;				  //se come el ultimmo punto y coma
 								vertexFile >> ans;				  //se come la coma del final de cada renglon
-							}	
+							}
 						}
 
 						if (!word.find("  DeclData {"))
 						{
-							std::cout << "Cargadndo Metadata" << std::endl;
+							std::cout << "Cargando Metadata" << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> mesh.totalMaterials;
 							vertexFile >> ans;
@@ -162,15 +169,15 @@ void Parser::CargarVertices()
 							for (int i = 0; i < mesh.totalMaterials; i++)
 							{
 								unsigned short matType;
-								vertexFile >> ans;				  
 								vertexFile >> ans;
-								vertexFile >> ans;				  
 								vertexFile >> ans;
-								vertexFile >> matType; 
-								vertexFile >> ans;				  
-								vertexFile >> ans;				  
-								vertexFile >> ans;					
-								vertexFile >> ans;			
+								vertexFile >> ans;
+								vertexFile >> ans;
+								vertexFile >> matType;
+								vertexFile >> ans;
+								vertexFile >> ans;
+								vertexFile >> ans;
+								vertexFile >> ans;
 								mesh.MaterialType.push_back(matType);
 							}
 							vertexFile >> mesh.totalMeta;
@@ -197,11 +204,11 @@ void Parser::CargarVertices()
 								}
 							}
 						}
-						
+
 
 						if (!word.find("  MeshMaterialList"))
 						{
-							std::cout << "Cargadndo Materiales" << std::endl;
+							std::cout << "Cargando Materiales" << std::endl;
 							//primero leo el total de vertices 
 							vertexFile >> mesh.totalMaterialsInMesh;
 							vertexFile >> ans;
@@ -221,6 +228,51 @@ void Parser::CargarVertices()
 							}
 
 							//done = true;
+						}
+						bool cycle = true;
+						for (unsigned int i = 0; i < mesh.totalMaterials; i++)
+						{
+							std::string normal;
+							std::string texture;
+							while (cycle)
+							{
+								if (!word.find("EffectParamString"))
+								{
+									if (!word.find("\"normalMap\";"))
+									{
+										char brake = 92;
+										vertexFile >> std::quoted(normalName);
+										if (normalName.find_last_of(brake) != std::string::npos)
+										{
+											int last = normalName.find_last_of(brake);
+											normal = normalName.substr(last + 1, normalName.size() - last);
+										}
+										else
+											normal = normalName;
+									}
+								}
+
+								
+								if (!word.find("TextureFilename"))
+								{
+									if (!word.find("Diffuse"))
+									{
+										cycle = false;
+									}
+								}
+							}
+							cycle = true;
+							char brake = 92;
+							vertexFile >> ans >> std::quoted(txtNormal);
+							if (txtNormal.find_last_of(brake) != std::string::npos)
+							{
+								int last = txtNormal.find_last_of(brake);
+								texture = txtNormal.substr(last + 1, a.size() - last);
+							}
+							else
+								texture = txtNormal;
+							actual.txtbuffer.push_back(texture);
+							actual.nrmFileBuffer.push_back(normal);
 						}
 
 						if (!word.find("    TextureFilename Diffuse"))
@@ -243,68 +295,26 @@ void Parser::CargarVertices()
 					}
 
 					mesh.TotalVertex = tempVec;
-					totalMeshes.push_back(mesh);	
-					std::cout << "Texturas: " << totalMeshes[meshNum].totaltext<<std::endl;
-					std::cout << "Materials: " << totalMeshes[meshNum].totalMaterialsInMesh << std::endl;
+					
+					std::cout << "Texturas: " << mesh.totaltext << std::endl;
+					std::cout << "Materials: " << mesh.totalMaterialsInMesh << std::endl;
+					totalMeshes.push_back(mesh);
+				}
 			}
-			vertexFile.close();
-		}
-		else
-		{
-			std::cout << "ERROR: No se pudo cargar el archivo. Revise que el nombre del archivo este escrito correctamente, o que el archivo se encuentre en la carpeta del programa.\n\nDesea intentarlo de nuevo?\ny/n" << std::endl;
-			std::cin >> ans;
-			std::cin.ignore();
-		}
-		//vertexFile.close();
-		std::cout << "Modelo cargado con exito." << std::endl;
-		
-		
-	} while (ans == 'Y' || ans == 'y');
+			else
+			{
+				std::cout << "ERROR: No se pudo cargar el archivo. Revise que el nombre del archivo este escrito correctamente, o que el archivo se encuentre en la carpeta del programa.\n\nDesea intentarlo de nuevo?\ny/n" << std::endl;
+				std::cin >> ans;
+				std::cin.ignore();
+			}
+			//vertexFile.close();
+			std::cout << "Modelo cargado con exito." << std::endl;
+
+
+		} while (ans == 'Y' || ans == 'y');
+	
+	vertexFile.close();
 	//std::cout << "TextName " << totalMeshes[0].nombresTexturas << std::endl;
 }
 
 
-//void Parser::Imprimir(int totalVertex)
-//{
-//	////////////////////////////////////////////////////////////////////////////////////
-//
-//	cout << "Para imprimir el array linea por linea presiona espacio.\npara imprimir todos los vertices, presiona enter\n";
-//	cout << "Vertices a imprimir: " << totalVertex << "\n";
-//	
-//	int cont = 0;
-//	bool ex = false;
-//	char ans;
-//	do
-//	{
-//
-//		ans = _getch();
-//
-//		if (ans == 32)
-//		{
-//			//cout << "Estoy imprimiendo el array linea por linea woooo\n";
-//			cout << "(" << vertexVec[cont].x << ", " << vertexVec[cont].y << ", " << vertexVec[cont].z << ")\n";
-//			cont++;
-//
-//			if (cont >= totalVertex)
-//				ex = true;
-//		}
-//		else if (ans == 13)
-//		{
-//			cout << "Estoy imprimiendo el array enterooooooooo\n";
-//			cout << "Vertices: \n";
-//			for (vertexIterator = vertexVec.begin(); vertexIterator != vertexVec.end(); vertexIterator++)
-//			{				
-//				std::cout << "(" << vertexIterator->x << ", " << vertexIterator->y << ", " << vertexIterator->z << ")\n";
-//				std::cout << "(" << vertexIterator->xn << ", " << vertexIterator->yn << ", " << vertexIterator->zn << ")\n";
-//				std::cout << "(" << vertexIterator->u << ", " << vertexIterator->v << ")\n";
-//			}
-//			/*cout << "\n\n\n\n\nNormals: \n";
-//			for (normalIterator = normalVec.begin(); normalIterator != normalVec.end(); normalIterator++)
-//			{
-//				
-//			}*/
-//			ex = true;
-//		}
-//
-//	} while (!ex);
-//}

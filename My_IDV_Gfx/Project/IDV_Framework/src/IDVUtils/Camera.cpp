@@ -71,6 +71,7 @@ void Camera::StrafeRight(float dt)
 	moveVector.Normalize();
 	Look += moveVector*Speed;
 	Eye += moveVector*Speed;
+	//std::cout << dt << std::endl;
 }
 
 void	Camera::MoveUp(float dt)

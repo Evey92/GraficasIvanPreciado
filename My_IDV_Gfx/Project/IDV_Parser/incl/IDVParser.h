@@ -47,7 +47,7 @@ public:
 	//std::vector<MetaSubset> meshMetaInfo;
 	//std::vector<unsigned short> MaterialType;
 
-	unsigned int meshCount = 0;
+	unsigned int meshCount = 0, modelos = 0;
 	//unsigned int totalVertex, totalIndexes, totalNormals,  totalMeta, totalMaterials;
 	//unsigned short type, totalMaterialsInMesh;
 
@@ -62,6 +62,7 @@ public:
 		unsigned int totalVertex, totalIndexes, totalNormals, totalMeta, totalMaterials, totaltext = 0;
 		unsigned short type, totalMaterialsInMesh;
 	};
+
 
 	std::vector<Mesh> totalMeshes;
 

@@ -27,8 +27,10 @@ public:
 	Timer TimeManager;
 	IDVPrimitiveManager *PrimitiveMgr;
 	IDVPrimitiveInst	 QuadInst;
-	IDVPrimitiveInst	Models[10];
+	IDVPrimitiveInst	Mesh[10];
 	IDVSceneProps sceneProp;
+	int instancesInScene;
+	int numModelos;
 };
 
 #endif

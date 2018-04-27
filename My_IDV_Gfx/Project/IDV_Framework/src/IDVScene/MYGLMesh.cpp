@@ -39,7 +39,7 @@ void GLMesh::Create() {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.indexCoordinatesMesh.size() * sizeof(unsigned short), &mesh.indexCoordinatesMesh[0], GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-		for (int x = 0; x < mesh.totaltext; x++)
+		/*for (int x = 0; x < mesh.totaltext; x++)
 		{
 			pTexture = new GLTexture;
 
@@ -48,7 +48,7 @@ void GLMesh::Create() {
 			if (TexId == -1) {
 				delete pTexture;
 			}
-		}
+		}*/
 
 		for (int j = 0; j < mesh.totalMaterialsInMesh; j++)
 		{
@@ -96,21 +96,26 @@ void GLMesh::Draw(float *t, float *vp) {
 
 		
 		IDVGLShader * s=0;
-		XMATRIX44 Scale;
+		/*XMATRIX44 Scale;
 		XMATRIX44 View;
-		XMATRIX44 Projection;
+		XMATRIX44 Projection;*/
 		/*XMatViewLookAtLH(View, XVECTOR3(0.0f, 20.0f, 0.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
 		XMatPerspectiveLH(Projection, Deg2Rad(100.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 		XMatScaling(Scale, 1.0f, 1.0f, 1.0f);*/
 
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, -1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
+		/*XMatViewLookAtLH(View, XVECTOR3(0.0f, -1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
 		XMatPerspectiveLH(Projection, Deg2Rad(100.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-		XMatScaling(Scale, 0.5f, 0.5f, 0.5f);
+		XMatScaling(Scale, 0.5f, 0.5f, 0.5f);*/
 
-		XMATRIX44 VP = vp;
+	/*	XMATRIX44 VP = vp;
 		XMATRIX44 WV = vp;
-		XMATRIX44 WVP = Scale*View*Projection;
+		XMATRIX44 WVP = Scale*View*Projection;*/
 		
+		XMATRIX44 World = static_cast<XMATRIX44>(t);
+		XMATRIX44 VP = static_cast<XMATRIX44>(vp);
+		XMATRIX44 WV = transform;
+		XMATRIX44 WVP = World*VP;
+
 		unsigned int sig = SigBase;
 		sig |= gSig;
 

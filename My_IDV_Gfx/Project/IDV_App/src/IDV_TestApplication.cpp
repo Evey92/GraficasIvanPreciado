@@ -17,19 +17,32 @@ void IDVTestApplication::InitVars() {
 }
 
 void IDVTestApplication::CreateAssets() {
-	
+
 	XMATRIX44 VP;
 
 	PrimitiveMgr = new IDVPrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
 
 	//int index = PrimitiveMgr->CreateQuad();
-	int index = PrimitiveMgr->CreateMesh();
 	
-	//for(int i = 0; i <  ; i++ )
-	int i = 0;
-	Models[i].CreateInstance(PrimitiveMgr->GetPrimitive(index), &MainCamera.VP);
+	int index;
+	//Mesh[0].CreateInstance(PrimitiveMgr->GetPrimitive(index), &MainCamera.VP);
+	
+	std::cout << "Cuantos modelos desea cargar. \n";
+	std::cin>> numModelos;
+	std::cin.ignore();
+
+	for (int i = 0; i < numModelos; i++)
+	{
+		index = PrimitiveMgr->CreateMesh();
+		Mesh[i].CreateInstance(PrimitiveMgr->GetPrimitive(index), &MainCamera.VP);
+	}
+	
+
 
 	PrimitiveMgr->SetSceneProps(&sceneProp);
+
+	
+	
 }
 
 
@@ -43,13 +56,25 @@ void IDVTestApplication::OnUpdate() {
 	deltaTime = TimeManager.GetDTSecs();
 	OnInput();
 	MainCamera.Update(deltaTime);
+
+	/*Meshes[1].TranslateAbsolute(Position.x, Position.y, Position.z);
+	Meshes[1].RotateXAbsolute(Orientation.x);
+	Meshes[1].RotateYAbsolute(Orientation.y);
+	Meshes[1].RotateXAbsolute(Orientation.z);
+	Meshes[1].ScaleAbsolute(0.15f);
+	Meshes[1].Update();*/
+
 	OnDraw();
+
 }
 
 void IDVTestApplication::OnDraw(){
 	m_pWindow->m_pVideoDriver->Clear();
 
-	Models[0].Draw();
+	for (int i = 0; i < numModelos; i++)
+	{
+		Mesh[i].Draw();
+	}
 	
 	m_pWindow->m_pVideoDriver->SwapBuffers();
 	firstFrame = false;

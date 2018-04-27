@@ -31,7 +31,6 @@ void D3DXMesh::Create()
 	parser.CargarVertices();
 
 	Mesh_Info.reserve(parser.meshCount);
-
 	for (int i = 0; i < parser.meshCount; i++)
 	{
 		Parser::Mesh mesh = parser.totalMeshes[i];
@@ -75,7 +74,7 @@ void D3DXMesh::Create()
 			return;
 		}
 
-		
+
 
 		for (int j = 0; j < mesh.totalMaterialsInMesh; j++)
 		{
@@ -84,7 +83,7 @@ void D3DXMesh::Create()
 			bdesc.ByteWidth = mesh.totalMeshMaterials[j].mtlBuffer.size() * sizeof(unsigned short);
 			bdesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 			subData = { &mesh.totalMeshMaterials[j].mtlBuffer[0], 0, 0 };
-			
+
 			pTexture = new D3DXTexture;
 
 			TexId = pTexture->LoadTexture(mesh.nombresTexturas[j].c_str());
@@ -93,7 +92,7 @@ void D3DXMesh::Create()
 			if (TexId == -1) {
 				delete pTexture;
 			}
-			
+
 			hr = D3D11Device->CreateBuffer(&bdesc, &subData, &tmp_subset.IB);
 			if (hr != S_OK) {
 				printf("Error Creating Index Buffer\n");
@@ -103,8 +102,8 @@ void D3DXMesh::Create()
 			textureMap.insert(std::make_pair(mesh.nombresTexturas[j], (pTexture)));
 		}
 		Mesh_Info.push_back(tempMesh);
-	}
-
+		}
+	
 	D3D11_SAMPLER_DESC sdesc;
 	sdesc.Filter = D3D11_FILTER_ANISOTROPIC;
 	sdesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -124,26 +123,28 @@ void D3DXMesh::Transform(float *t) {
 }
 
 void D3DXMesh::Draw(float *t, float *vp) {
-
+	
 	if (t)
 		transform = t;
-
-	for(int i = 0; i<parser.meshCount; i++)
+	
+	//std::cout << "Cargando modelo:" << x + 1 << " de " << parser.modelos << std::endl;
+		
+	for (int i = 0; i < parser.meshCount; i++)
 	{
 		MeshInfo drawinfo = Mesh_Info[i];
 		Parser::Mesh mesh = parser.totalMeshes[i];
 		XMATRIX44 VP = static_cast<XMATRIX44>(vp);
 		XMATRIX44 World = static_cast<XMATRIX44>(t);
-		
+
 		XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
 
 
-	/*	XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -90.0f), XVECTOR3(0.0f, 5.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
-		XMatPerspectiveLH(Projection, Deg2Rad(100.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-		XMatScaling(Scale, 1.0f, 1.0f, 1.0f);*/
-		
+		/*	XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -90.0f), XVECTOR3(0.0f, 5.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
+			XMatPerspectiveLH(Projection, Deg2Rad(100.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
+			XMatScaling(Scale, 1.0f, 1.0f, 1.0f);*/
+
 
 		CnstBuffer.WVP = World*VP;
 		CnstBuffer.World = transform;
@@ -158,7 +159,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 
 
 		for (int j = 0; j < drawinfo.SubSets.size(); j++)
-		{		
+		{
 			SubsetInfo subinfo = drawinfo.SubSets[j];
 			s = dynamic_cast<IDVD3DXShader*>(g_pBaseDriver->GetShaderSig(sig));
 
@@ -170,19 +171,19 @@ void D3DXMesh::Draw(float *t, float *vp) {
 			D3D11DeviceContext->VSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
 			D3D11DeviceContext->PSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
 
-			
+
 			D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(this->textureMap.find(mesh.nombresTexturas[j])->second);
 			//D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(this->textureCollection[j]);
 			D3D11DeviceContext->PSSetShaderResources(0, 1, texd3d->pSRVTex.GetAddressOf());
 			D3D11DeviceContext->PSSetSamplers(0, 1, texd3d->pSampler.GetAddressOf());
 
 			D3D11DeviceContext->IASetIndexBuffer(subinfo.IB.Get(), DXGI_FORMAT_R16_UINT, 0);
-						
-			
+
+
 			D3D11DeviceContext->PSSetSamplers(0, 1, pSampler.GetAddressOf());
 			D3D11DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			D3D11DeviceContext->DrawIndexed(mesh.totalMeshMaterials[j].mtlBuffer.size(), 0, 0);
-		}		
+		}
 	}
 }
 

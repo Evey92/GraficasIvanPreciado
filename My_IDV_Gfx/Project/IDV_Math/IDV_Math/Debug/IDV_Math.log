@@ -1,15 +1,5 @@
-﻿  stdafx.cpp
+﻿  Skipping... (no relevant changes detected)
+  stdafx.cpp
+  Skipping... (no relevant changes detected)
   IDV_Math.cpp
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(680): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(681): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(682): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(684): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(685): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(686): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(688): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(689): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(690): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(692): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(693): warning C4552: '*': operator has no effect; expected operator with side-effect
-c:\users\ivan\documents\5to cuatri\graficas\graficasivanpreciado\my_idv_gfx\project\idv_math\idv_math\idv_math.cpp(694): warning C4552: '*': operator has no effect; expected operator with side-effect
   IDV_Math.vcxproj -> C:\Users\Ivan\Documents\5to Cuatri\Graficas\GraficasIvanPreciado\My_IDV_Gfx\Project\Lib\Debug\Win32\IDV_Math.lib
